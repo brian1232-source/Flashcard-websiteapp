@@ -208,8 +208,6 @@ function getCardsForCurrentUser(cards) {
 function populateSubjects() {
     if (!subjectSelect) return;
 
-    const selectedSubject = subjectSelect.value || "all";
-
     const subjects = [
         ...new Set(
             allCards
@@ -217,6 +215,11 @@ function populateSubjects() {
                 .filter(Boolean)
         )
     ].sort((a, b) => a.localeCompare(b));
+
+    const requestedSubject = new URLSearchParams(window.location.search).get("subject");
+    const selectedSubject = requestedSubject && subjects.includes(requestedSubject)
+        ? requestedSubject
+        : (subjectSelect.value || "all");
 
     subjectSelect.replaceChildren();
 

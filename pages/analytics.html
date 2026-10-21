@@ -10,6 +10,8 @@
     <link rel="stylesheet" href="../css/workspace-pages.css"><link rel="stylesheet" href="../css/analytics.css">
     <script type="module" src="../js/firebase-storage-bootstrap.js"></script>
     <script src="../js/analytics.js" defer></script>
+    <link rel="stylesheet" href="../css/sidebar-navigation.css">
+    <script type="module" src="../js/sidebar-navigation.js"></script>
 </head>
 <body>
 <div class="app-layout">
@@ -18,15 +20,17 @@
         <a href="dashboard.html" class="brand"><img src="../images/logo.png" alt="" class="brand-logo"><span class="brand-name">Flash<span>card</span></span></a>
         <div class="sidebar-label">WORKSPACE</div>
         <nav class="sidebar-nav" aria-label="Main navigation">
-            <a href="dashboard.html" class="nav-link"><span class="nav-icon"><i class="fa-solid fa-gauge-high"></i></span><span>Dashboard</span></a>
-            <a href="flashcards.html" class="nav-link"><span class="nav-icon"><i class="fa-solid fa-layer-group"></i></span><span>My Flashcards</span></a>
-            <a href="create-flashcard.html" class="nav-link"><span class="nav-icon"><i class="fa-solid fa-plus"></i></span><span>Create Flashcards</span></a>
-            <a href="study.html" class="nav-link"><span class="nav-icon"><i class="fa-solid fa-book"></i></span><span>Study Mode</span></a>
-            <a href="quiz.html" class="nav-link"><span class="nav-icon"><i class="fa-solid fa-circle-question"></i></span><span>Quick Quiz</span></a>
-            <a href="revision.html" class="nav-link"><span class="nav-icon"><i class="fa-solid fa-rotate-right"></i></span><span>Smart Revision</span></a>
-            <a href="analytics.html" class="nav-link active" aria-current="page"><span class="nav-icon"><i class="fa-solid fa-chart-line"></i></span><span>Analytics</span></a>
-            <div class="sidebar-label secondary-label">PREFERENCES</div>
-            <a href="settings.html" class="nav-link"><span class="nav-icon"><i class="fa-solid fa-gear"></i></span><span>Settings</span></a>
+            <a href="dashboard.html" class="nav-link"><i class="fa-solid fa-gauge-high"></i><span>Dashboard</span></a>
+            <a href="flashcards.html" class="nav-link"><i class="fa-solid fa-layer-group"></i><span>My Flashcards</span></a>
+            <div class="study-topic-group">
+                <button type="button" class="nav-link topic-dropdown-toggle" aria-expanded="false" aria-controls="studyTopicsSubmenu"><i class="fa-solid fa-book-open"></i><span>Study Topics</span><i class="fa-solid fa-chevron-down topic-caret" aria-hidden="true"></i></button>
+                <div class="topic-submenu" id="studyTopicsSubmenu" hidden><a href="quiz.html?topic=az900:all&amp;start=1" class="nav-link topic-submenu-link"><i class="fa-solid fa-book"></i><span>All AZ-900 topics</span></a></div>
+            </div>
+            <a href="revision.html" class="nav-link"><i class="fa-solid fa-rotate-right"></i><span>Smart Revision</span></a>
+            <a href="quiz.html" class="nav-link"><i class="fa-solid fa-circle-question"></i><span>Practice Quiz</span></a>
+            <a href="mock-exam.html" class="nav-link"><i class="fa-solid fa-clock"></i><span>Mock Exam</span></a>
+            <a href="analytics.html" class="nav-link"><i class="fa-solid fa-chart-line"></i><span>My Progress</span></a>
+            <a href="settings.html" class="nav-link"><i class="fa-solid fa-gear"></i><span>Settings</span></a>
         </nav>
         <div class="sidebar-bottom"><div class="sidebar-tip"><h3>Progress adds up.</h3><p>Short, regular sessions help you build a lasting study habit.</p><a href="study.html">Continue studying</a></div><button type="button" class="logout-button" id="logoutButton"><i class="fa-solid fa-right-from-bracket"></i><span>Sign out</span></button></div>
     </aside>

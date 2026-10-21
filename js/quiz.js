@@ -1,4 +1,4 @@
-"use strict";
+import { AZ900_AREAS, labelForTopic, questionsForTopic } from "./az900-question-bank.js";
 
 const CARDS_KEY = "flashcardCoachFlashcards";
 const SESSION_KEY = "flashcardCoachSession";
@@ -15,30 +15,101 @@ function readJSON(key, fallback) {
     catch (error) { console.error(`Unable to read ${key}:`, error); return fallback; }
 }
 
+function subjectOf(card) { return card.subject || card.category || "General"; }
+function isAZ900() { return ["az900:", "area:", "topic:"].some(prefix => document.getElementById("subjectSelect").value.startsWith(prefix)); }
+function selectedPool() {
+    const selection = document.getElementById("subjectSelect").value;
+    if (isAZ900()) return questionsForTopic(selection).map(item => ({ ...item, subject: item.topic }));
+    const subject = selection.startsWith("flash:") ? selection.slice(6) : "all";
+    const source = subject === "all" ? cards : cards.filter(card => subjectOf(card) === subject);
+    const unique = new Map();
+    source.forEach(card => {
+        const answer = card.answer.trim().toLocaleLowerCase();
+        if (!unique.has(answer)) unique.set(answer, card);
+    });
+    return [...unique.values()].map(card => ({ ...card, question: card.question || card.title, options: null }));
+}
+
+function populateTopics() {
+    const select = document.getElementById("subjectSelect");
+    select.replaceChildren();
+    const all = document.createElement("option");
+    all.value = "az900:all";
+    all.textContent = "All AZ-900 topics";
+    select.append(all);
+    AZ900_AREAS.forEach((area, areaIndex) => {
+        const group = document.createElement("optgroup");
+        group.label = area.name;
+        const areaOption = document.createElement("option");
+        areaOption.value = `area:${areaIndex}`;
+        areaOption.textContent = `All ${area.name}`;
+        group.append(areaOption);
+        area.topics.forEach((topic, topicIndex) => {
+            const option = document.createElement("option");
+            option.value = `topic:${areaIndex}:${topicIndex}`;
+            option.textContent = topic[0];
+            group.append(option);
+        });
+        select.append(group);
+    });
+    const subjects = [...new Set(cards.map(subjectOf))].sort((a, b) => a.localeCompare(b));
+    if (subjects.length) {
+        const group = document.createElement("optgroup");
+        group.label = "My flashcards";
+        subjects.forEach(subject => {
+            const option = document.createElement("option");
+            option.value = `flash:${subject}`;
+            option.textContent = subject;
+            group.append(option);
+        });
+        select.append(group);
+    }
+    const requested = new URLSearchParams(location.search).get("topic");
+    if (requested && [...select.options].some(option => option.value === requested)) select.value = requested;
+}
+
+function updateQuestionCount() {
+    const select = document.getElementById("questionCount");
+    const previous = Number(select.value);
+    const pool = selectedPool();
+    const minimum = isAZ900() ? 1 : 4;
+    const choices = [5, 10, 15].filter(count => count <= pool.length);
+    if (pool.length >= minimum && !choices.includes(pool.length)) choices.push(pool.length);
+    choices.sort((a, b) => a - b);
+    select.replaceChildren();
+    choices.forEach(count => {
+        const option = document.createElement("option");
+        option.value = String(count);
+        option.textContent = `${count} ${count === 1 ? "question" : "questions"}`;
+        select.append(option);
+    });
+    const ready = pool.length >= minimum;
+    document.getElementById("startQuiz").disabled = !ready;
+    document.getElementById("setupMessage").textContent = ready ? "" : (isAZ900()
+        ? "No questions are available for this selection yet."
+        : "This flashcard subject needs at least four different answers. Choose another subject or add flashcards.");
+    if (ready) select.value = String(choices.includes(previous) ? previous : choices[0]);
+}
+
 function init() {
     try { session = JSON.parse(sessionStorage.getItem(SESSION_KEY) || localStorage.getItem(SESSION_KEY) || "null"); }
     catch { session = null; }
-    if (!session || !session.id || !session.email) { window.location.replace("../index.html"); return; }
+    if (!session?.id || !session?.email) { window.location.replace("../index.html"); return; }
     const name = session.name || "Student";
     document.getElementById("topUserName").textContent = name;
     document.getElementById("topAvatar").textContent = name.trim().split(/\s+/).slice(0, 2).map(part => part[0].toUpperCase()).join("");
     document.getElementById("todayDate").textContent = new Intl.DateTimeFormat("en-KE", { weekday: "short", day: "numeric", month: "short", year: "numeric" }).format(new Date());
     const saved = readJSON(CARDS_KEY, []);
     cards = Array.isArray(saved) ? saved.filter(card => card && (card.question || card.title) && typeof card.answer === "string" && card.answer.trim() && (!card.userId || card.userId === session.id)) : [];
-    const subjects = [...new Set(cards.map(card => card.subject || card.category || "General"))].sort((a, b) => a.localeCompare(b));
-    const select = document.getElementById("subjectSelect");
-    subjects.forEach(subject => { const option = document.createElement("option"); option.value = subject; option.textContent = subject; select.append(option); });
-    const uniqueAnswers = new Set(cards.map(card => card.answer.trim().toLowerCase()));
-    if (cards.length < 4 || uniqueAnswers.size < 4) {
-        document.getElementById("setupPanel").hidden = true;
-        document.getElementById("emptyState").hidden = false;
-    } else {
-        document.getElementById("startQuiz").addEventListener("click", startQuiz);
-    }
+    populateTopics();
+    updateQuestionCount();
+    document.getElementById("subjectSelect").addEventListener("change", updateQuestionCount);
+    document.getElementById("startQuiz").addEventListener("click", startQuiz);
     document.getElementById("nextQuestion").addEventListener("click", nextQuestion);
     document.getElementById("tryAgain").addEventListener("click", resetQuiz);
     setupNavigation();
     document.getElementById("logoutButton").addEventListener("click", logout);
+    if (new URLSearchParams(location.search).get("start") === "1") startQuiz();
 }
 
 function shuffle(items) {
@@ -51,21 +122,15 @@ function shuffle(items) {
 }
 
 function startQuiz() {
-    const subject = document.getElementById("subjectSelect").value;
-    const filtered = subject === "all" ? cards : cards.filter(card => (card.subject || card.category || "General") === subject);
-    const unique = new Map();
-    filtered.forEach(card => { const key = card.answer.trim().toLowerCase(); if (!unique.has(key)) unique.set(key, card); });
-    const available = [...unique.values()];
-    const message = document.getElementById("setupMessage");
-    if (available.length < 4) {
-        message.textContent = "Choose another subject or add flashcards with at least four different answers.";
+    const pool = selectedPool();
+    if (!pool.length || (!isAZ900() && pool.length < 4)) {
+        document.getElementById("setupMessage").textContent = "Choose a topic with available questions or add more flashcards.";
         return;
     }
-    const requested = Number(document.getElementById("questionCount").value);
-    quizCards = shuffle(available).slice(0, Math.min(requested, available.length));
+    quizCards = shuffle(pool).slice(0, Math.min(Number(document.getElementById("questionCount").value) || 1, pool.length));
     questionIndex = 0;
     score = 0;
-    message.textContent = "";
+    document.getElementById("setupMessage").textContent = "";
     document.getElementById("setupPanel").hidden = true;
     document.getElementById("resultPanel").hidden = true;
     document.getElementById("questionPanel").hidden = false;
@@ -75,19 +140,25 @@ function startQuiz() {
 function renderQuestion() {
     answered = false;
     const card = quizCards[questionIndex];
-    const alternatives = shuffle(cards.filter(item => item !== card && item.answer.trim().toLowerCase() !== card.answer.trim().toLowerCase())).slice(0, 3).map(item => item.answer.trim());
-    const options = shuffle([card.answer.trim(), ...alternatives]);
+    const distractorAnswers = new Map();
+    cards.forEach(item => {
+        const answer = item.answer.trim();
+        const key = answer.toLocaleLowerCase();
+        if (key !== card.answer.toLocaleLowerCase() && !distractorAnswers.has(key)) distractorAnswers.set(key, answer);
+    });
+    const alternatives = shuffle([...distractorAnswers.values()]).slice(0, 3);
+    const choices = card.options ? shuffle(card.options) : shuffle([card.answer.trim(), ...alternatives]);
     document.getElementById("questionPosition").textContent = `Question ${questionIndex + 1} of ${quizCards.length}`;
     document.getElementById("quizProgress").style.width = `${(questionIndex / quizCards.length) * 100}%`;
-    document.getElementById("questionSubject").textContent = card.subject || card.category || "General";
-    document.getElementById("questionText").textContent = card.question || card.title;
+    document.getElementById("questionSubject").textContent = card.topic || subjectOf(card);
+    document.getElementById("questionText").textContent = card.question;
     document.getElementById("answerFeedback").textContent = "";
     const next = document.getElementById("nextQuestion");
     next.disabled = true;
     next.innerHTML = questionIndex === quizCards.length - 1 ? 'See results <i class="fa-solid fa-arrow-right"></i>' : 'Next question <i class="fa-solid fa-arrow-right"></i>';
     const container = document.getElementById("answerOptions");
     container.replaceChildren();
-    options.forEach((answer, i) => {
+    choices.forEach((answer, i) => {
         const button = document.createElement("button");
         button.type = "button";
         button.className = "answer-option";
@@ -105,17 +176,15 @@ function renderQuestion() {
 function chooseAnswer(button, answer, correctAnswer) {
     if (answered) return;
     answered = true;
-    const correct = answer.toLowerCase() === correctAnswer.toLowerCase();
-    if (correct) score += 1;
+    if (answer.toLocaleLowerCase() === correctAnswer.toLocaleLowerCase()) score += 1;
     document.querySelectorAll(".answer-option").forEach(option => {
         option.disabled = true;
-        const optionAnswer = option.lastElementChild.textContent;
-        if (optionAnswer.toLowerCase() === correctAnswer.toLowerCase()) option.classList.add("correct");
+        if (option.lastElementChild.textContent.toLocaleLowerCase() === correctAnswer.toLocaleLowerCase()) option.classList.add("correct");
     });
-    if (!correct) button.classList.add("wrong");
+    if (answer.toLocaleLowerCase() !== correctAnswer.toLocaleLowerCase()) button.classList.add("wrong");
     const feedback = document.getElementById("answerFeedback");
-    feedback.textContent = correct ? "Correct — nice work!" : `Not quite. Correct answer: ${correctAnswer}`;
-    feedback.style.color = correct ? "#047857" : "#b91c1c";
+    feedback.textContent = answer.toLocaleLowerCase() === correctAnswer.toLocaleLowerCase() ? "Correct — nice work!" : `Not quite. Correct answer: ${correctAnswer}`;
+    feedback.style.color = answer.toLocaleLowerCase() === correctAnswer.toLocaleLowerCase() ? "#047857" : "#b91c1c";
     document.getElementById("nextQuestion").disabled = false;
 }
 
@@ -129,14 +198,15 @@ function nextQuestion() {
 function showResults() {
     document.getElementById("questionPanel").hidden = true;
     document.getElementById("resultPanel").hidden = false;
-    const percentage = Math.round((score / quizCards.length) * 100);
+    const percentage = Math.round(score / quizCards.length * 100);
     document.getElementById("scoreValue").textContent = `${percentage}%`;
     document.getElementById("scoreRing").style.setProperty("--score", `${percentage}%`);
     document.getElementById("resultTitle").textContent = percentage >= 80 ? "Excellent work!" : percentage >= 50 ? "Good progress!" : "Keep practicing!";
     document.getElementById("resultSummary").textContent = `You answered ${score} of ${quizCards.length} ${quizCards.length === 1 ? "question" : "questions"} correctly.`;
+    const subject = isAZ900() ? labelForTopic(document.getElementById("subjectSelect").value) : document.getElementById("subjectSelect").value.replace(/^flash:/, "");
     const history = readJSON(QUIZ_HISTORY_KEY, []);
     if (Array.isArray(history)) {
-        history.push({ userId: session.id, date: new Date().toISOString(), score, total: quizCards.length, scorePercentage: percentage, subject: document.getElementById("subjectSelect").value });
+        history.push({ userId: session.id, date: new Date().toISOString(), score, total: quizCards.length, scorePercentage: percentage, subject });
         try { localStorage.setItem(QUIZ_HISTORY_KEY, JSON.stringify(history)); }
         catch (error) { console.error("Unable to save quiz result:", error); }
     }

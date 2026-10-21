@@ -3,566 +3,116 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>Dashboard | Flashcard Coach</title>
-
-    <meta
-        name="description"
-        content="Manage your flashcards, track your learning progress, and study smarter with Flashcard Coach."
-    >
-
+    <meta name="description" content="Your Flashcard Coach learning dashboard.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-    <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
-        rel="stylesheet"
-    >
-
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-
     <link rel="stylesheet" href="../css/dashboard.css">
     <script type="module" src="../js/firebase-storage-bootstrap.js"></script>
-    <script src="../js/dashboard.js" defer></script>
+    <script type="module" src="../js/dashboard.js"></script>
+    <link rel="stylesheet" href="../css/sidebar-navigation.css">
+    <script type="module" src="../js/sidebar-navigation.js"></script>
 </head>
-
 <body>
-
-<div class="app-layout">
-
-    <!-- MOBILE OVERLAY -->
-    <div class="sidebar-overlay" id="sidebarOverlay"></div>
-
-    <!-- SIDEBAR -->
-    <aside class="sidebar" id="sidebar">
-
-        <a href="dashboard.html" class="brand">
-            <img
-                src="../images/logo.png"
-                alt="Flashcard Coach logo"
-                class="brand-logo"
-            >
-
-            <span class="brand-name">
-                Flash<span>card</span>
-            </span>
-        </a>
-
-        <div class="sidebar-label">WORKSPACE</div>
-
-        <nav class="sidebar-nav" aria-label="Main navigation">
-
-            <a href="dashboard.html" class="nav-link active">
-                <span class="nav-icon">
-                    <i class="fa-solid fa-gauge-high"></i>
-                </span>
-                <span>Dashboard</span>
-            </a>
-
-            <a href="flashcards.html" class="nav-link">
-                <span class="nav-icon">
-                    <i class="fa-solid fa-cards"></i>
-                </span>
-                <span>My Flashcards</span>
-            </a>
-
-            <a href="create-flashcard.html" class="nav-link">
-                <span class="nav-icon">
-                    <i class="fa-solid fa-plus"></i>
-                </span>
-                <span>Create Flashcards</span>
-            </a>
-
-            <a href="study.html" class="nav-link">
-                <span class="nav-icon">
-                    <i class="fa-solid fa-book"></i>
-                </span>
-                <span>Study Mode</span>
-            </a>
-
-            <a href="quiz.html" class="nav-link">
-                <span class="nav-icon">
-                    <i class="fa-solid fa-circle-question"></i>
-                </span>
-                <span>Quick Quiz</span>
-            </a>
-
-            <a href="revision.html" class="nav-link">
-                <span class="nav-icon">
-                    <i class="fa-solid fa-rotate-right"></i>
-                </span>
-                <span>Smart Revision</span>
-            </a>
-
-<a href="analytics.html" class="nav-link">
-                <span class="nav-icon">
-                    <i class="fa-solid fa-chart-line"></i>
-                </span>
-                <span>Analytics</span>
-            </a>
-
-            <div class="sidebar-label secondary-label">PREFERENCES</div>
-
-            <a href="settings.html" class="nav-link">
-                <span class="nav-icon">
-                    <i class="fa-solid fa-gear"></i>
-                </span>
-                <span>Settings</span>
-            </a>
-
+<div class="sidebar-scrim" id="sidebarOverlay"></div>
+<aside class="sidebar" id="sidebar" aria-label="Main navigation">
+    <a class="brand" href="dashboard.html">
+        <img src="../images/logo.png" alt="" class="brand-logo">
+        <span class="brand-name">Flash<span>card</span></span>
+    </a>
+    <div class="side-label">MENU</div>
+    <nav class="nav-list" aria-label="Main navigation">
+            <a href="dashboard.html" class="nav-item"><i class="fa-solid fa-gauge-high"></i><span>Dashboard</span></a>
+            <a href="flashcards.html" class="nav-item"><i class="fa-solid fa-layer-group"></i><span>My Flashcards</span></a>
+            <div class="study-topic-group">
+                <button type="button" class="nav-item topic-dropdown-toggle" aria-expanded="false" aria-controls="studyTopicsSubmenu"><i class="fa-solid fa-book-open"></i><span>Study Topics</span><i class="fa-solid fa-chevron-down topic-caret" aria-hidden="true"></i></button>
+                <div class="topic-submenu" id="studyTopicsSubmenu" hidden><a href="quiz.html?topic=az900:all&amp;start=1" class="nav-item topic-submenu-link"><i class="fa-solid fa-book"></i><span>All AZ-900 topics</span></a></div>
+            </div>
+            <a href="revision.html" class="nav-item"><i class="fa-solid fa-rotate-right"></i><span>Smart Revision</span></a>
+            <a href="quiz.html" class="nav-item"><i class="fa-solid fa-circle-question"></i><span>Practice Quiz</span></a>
+            <a href="mock-exam.html" class="nav-item"><i class="fa-solid fa-clock"></i><span>Mock Exam</span></a>
+            <a href="analytics.html" class="nav-item"><i class="fa-solid fa-chart-line"></i><span>My Progress</span></a>
+            <a href="settings.html" class="nav-item"><i class="fa-solid fa-gear"></i><span>Settings</span></a>
         </nav>
+    <div class="sidebar-bottom">
+        <div class="sidebar-tip"><span class="tip-icon"><i class="fa-solid fa-wand-magic-sparkles"></i></span><strong>Small steps add up</strong><p>A little practice today makes recall easier tomorrow.</p><a href="study.html">Start a session <i class="fa-solid fa-arrow-right"></i></a></div>
+        <button class="nav-item logout-button" id="logoutButton" type="button"><i class="fa-solid fa-arrow-right-from-bracket"></i><span>Log out</span></button>
+    </div>
+</aside>
 
-        <div class="sidebar-bottom">
-
-            <div class="upgrade-card">
-                <div class="upgrade-icon">
-                    <i class="fa-solid fa-rocket"></i>
-                </div>
-
-                <h3>Keep growing!</h3>
-
-                <p>
-                    Every flashcard you study brings you closer to your goals.
-                </p>
-
-                <a href="study.html" class="upgrade-link">
-                    Start studying
-                </a>
-            </div>
-
-            <button class="logout-button" id="logoutButton">
-                <span class="nav-icon">
-                    <i class="fa-solid fa-right-from-bracket"></i>
-                </span>
-                <span>Sign out</span>
-            </button>
-
+<main class="main-content">
+    <header class="topbar">
+        <div class="topbar-start">
+            <button class="menu-toggle" id="menuToggle" type="button" aria-label="Open navigation" aria-expanded="false"><i class="fa-solid fa-bars"></i></button>
+            <div class="breadcrumb"><span>Workspace</span><i class="fa-solid fa-chevron-right"></i><strong>Dashboard</strong></div>
         </div>
-
-    </aside>
-
-
-    <!-- MAIN CONTENT -->
-    <main class="main-content">
-
-        <!-- TOP BAR -->
-        <header class="topbar">
-
-            <div class="topbar-left">
-
-                <button
-                    type="button"
-                    class="menu-toggle"
-                    id="menuToggle"
-                    aria-label="Open navigation menu"
-                    aria-expanded="false"
-                >
-                    <i class="fa-solid fa-bars"></i>
-                </button>
-
-                <div class="breadcrumb">
-                    <span>Workspace</span>
-                    <span class="breadcrumb-separator">/</span>
-                    <strong>Dashboard</strong>
-                </div>
-
-            </div>
-
-<div class="topbar-right">
-
-                <div class="today-date" id="todayDate"></div>
-
-                <div class="profile-menu">
-                    <button
-                        type="button"
-                        class="profile-button"
-                        id="profileMenuToggle"
-                        aria-label="Open profile menu"
-                        aria-expanded="false"
-                    >
-                        <span class="avatar" id="topAvatar">
-                            <i class="fa-solid fa-user"></i>
-                        </span>
-
-                        <span class="profile-text">
-                            <strong id="topUserName">Student</strong>
-                        </span>
-
-                        <span class="profile-arrow">
-                            <i class="fa-solid fa-chevron-down"></i>
-                        </span>
-                    </button>
-
-                    <div class="profile-dropdown" id="profileDropdown" hidden>
-                        <a href="settings.html" class="dropdown-item">
-                            <i class="fa-solid fa-user"></i>
-                            <span>Profile Settings</span>
-                        </a>
-
-                        <a href="flashcards.html" class="dropdown-item">
-                            <i class="fa-solid fa-cards"></i>
-                            <span>My Flashcards</span>
-                        </a>
-
-                        <a href="study.html" class="dropdown-item">
-                            <i class="fa-solid fa-book"></i>
-                            <span>Study Mode</span>
-                        </a>
-
-                        <div class="dropdown-divider"></div>
-
-                        <button class="dropdown-item logout-dropdown" id="logoutButton">
-                            <i class="fa-solid fa-right-from-bracket"></i>
-                            <span>Sign out</span>
-                        </button>
-                    </div>
-                </div>
-
-            </div>
-
-        </header>
-
-
-        <!-- DASHBOARD PAGE -->
-        <div class="dashboard-container">
-
-            <!-- WELCOME -->
-            <section class="welcome-section">
-
-                <div class="welcome-text">
-
-                    <span class="eyebrow">
-                        YOUR LEARNING SPACE
-                    </span>
-
-                    <h1>
-                        Welcome back, <span id="welcomeName">Student</span>!
-                        <span class="wave">✦</span>
-                    </h1>
-
-                    <p>
-                        Ready to learn something new today?
-                        Keep building your knowledge one card at a time.
-                    </p>
-
-                    <div class="welcome-actions">
-
-                        <a href="study.html" class="button-primary">
-                            <i class="fa-solid fa-play"></i>
-                            <span>Start studying</span>
-                        </a>
-
-                        <a href="create-flashcard.html" class="button-secondary">
-                            <i class="fa-solid fa-plus"></i>
-                            <span>Create cards</span>
-                        </a>
-
-                    </div>
-
-                </div>
-
-                <div class="welcome-illustration" aria-hidden="true">
-
-                    <div class="illustration-circle"></div>
-
-                    <div class="floating-card card-back">
-                        <span class="floating-card-line"></span>
-                        <span class="floating-card-line short"></span>
-                    </div>
-
-                    <div class="floating-card card-front">
-                        <span class="illustration-lightbulb">✦</span>
-                        <span class="illustration-title">Keep learning</span>
-                        <span class="floating-card-line"></span>
-                        <span class="floating-card-line short"></span>
-                    </div>
-
-                    <div class="floating-star star-one">✦</div>
-                    <div class="floating-star star-two">✧</div>
-
-                </div>
-
-            </section>
-
-
-            <!-- STATISTICS -->
-            <section class="stats-grid" aria-label="Learning statistics">
-
-                <article class="stat-card">
-
-                    <div class="stat-top">
-                        <div class="stat-icon blue-icon">
-                            <i class="fa-solid fa-cards"></i>
-                        </div>
-                        <span class="stat-tag">COLLECTION</span>
-                    </div>
-
-                    <div class="stat-value" id="totalCards">0</div>
-
-                    <h3>Total Flashcards</h3>
-
-                    <p>Cards in your collection</p>
-
-                </article>
-
-
-                <article class="stat-card">
-
-                    <div class="stat-top">
-                        <div class="stat-icon purple-icon">
-                            <i class="fa-solid fa-book"></i>
-                        </div>
-                        <span class="stat-tag">LEARNING</span>
-                    </div>
-
-                    <div class="stat-value" id="cardsStudied">0</div>
-
-                    <h3>Cards Studied</h3>
-
-                    <p>Your learning activity</p>
-
-                </article>
-
-
-                <article class="stat-card">
-
-                    <div class="stat-top">
-                        <div class="stat-icon orange-icon">
-                            <i class="fa-solid fa-fire"></i>
-                        </div>
-                        <span class="stat-tag">CONSISTENCY</span>
-                    </div>
-
-                    <div class="stat-value">
-                        <span id="studyStreak">0</span>
-                        <small>days</small>
-                    </div>
-
-                    <h3>Study Streak</h3>
-
-                    <p>Consecutive study days</p>
-
-                </article>
-
-
-                <article class="stat-card">
-
-                    <div class="stat-top">
-                        <div class="stat-icon green-icon">
-                            <i class="fa-solid fa-chart-line"></i>
-                        </div>
-                        <span class="stat-tag">PERFORMANCE</span>
-                    </div>
-
-                    <div class="stat-value">
-                        <span id="averageScore">0</span><small>%</small>
-                    </div>
-
-                    <h3>Average Quiz Score</h3>
-
-                    <p>Your overall quiz performance</p>
-
-                </article>
-
-            </section>
-
-
-            <!-- MAIN DASHBOARD GRID -->
-            <div class="dashboard-grid">
-
-                <!-- STUDY PROGRESS -->
-                <section class="panel progress-panel">
-
-                    <div class="panel-heading">
-
-                        <div>
-                            <h2>Daily study progress</h2>
-                            <p>A little progress goes a long way.</p>
-                        </div>
-
-                        <a href="analytics.html" class="view-link">
-                            View analytics →
-                        </a>
-
-                    </div>
-
-                    <div class="progress-summary">
-
-                        <div>
-                            <span class="summary-label">Cards studied today</span>
-
-                            <div class="progress-number">
-                                <strong id="todayCards">0</strong>
-                                <span>/ <span id="dailyGoal">20</span> cards</span>
-                            </div>
-                        </div>
-
-                        <div class="progress-percentage" id="progressPercentage">
-                            0%
-                        </div>
-
-                    </div>
-
-                    <div
-                        class="progress-track"
-                        id="dailyProgressTrack"
-                        role="progressbar"
-                        aria-label="Daily study goal progress"
-                        aria-valuemin="0"
-                        aria-valuemax="100"
-                        aria-valuenow="0"
-                    >
-                        <div class="progress-fill" id="dailyProgressFill"></div>
-                    </div>
-
-                    <div class="progress-footer">
-                        <span id="progressMessage">Let's get started!</span>
-                        <span id="remainingCards">20 cards to go</span>
-                    </div>
-
-                    <div class="goal-tip">
-                        <span class="goal-tip-icon">✦</span>
-
-                        <p>
-                            <strong>Study tip:</strong>
-                            Short, regular sessions can help you remember more.
-                        </p>
-                    </div>
-
-                </section>
-
-
-                <!-- QUICK ACTIONS -->
-                <section class="panel quick-actions-panel">
-
-                    <div class="panel-heading">
-
-                        <div>
-                            <h2>Quick actions</h2>
-                            <p>What would you like to do?</p>
-                        </div>
-
-                    </div>
-
-                    <div class="quick-actions-list">
-
-                        <a href="create-flashcard.html" class="quick-action">
-                            <span class="quick-action-icon create-action">
-                                <i class="fa-solid fa-plus"></i>
-                            </span>
-
-                            <span class="quick-action-text">
-                                <strong>Create flashcards</strong>
-                                <small>Add new learning cards</small>
-                            </span>
-                        </a>
-
-
-                        <a href="study.html" class="quick-action">
-                            <span class="quick-action-icon study-action">
-                                <i class="fa-solid fa-book"></i>
-                            </span>
-
-                            <span class="quick-action-text">
-                                <strong>Study flashcards</strong>
-                                <small>Review your collection</small>
-                            </span>
-                        </a>
-
-
-                        <a href="quiz.html" class="quick-action">
-                            <span class="quick-action-icon quiz-action">
-                                <i class="fa-solid fa-circle-question"></i>
-                            </span>
-
-                            <span class="quick-action-text">
-                                <strong>Take a quick quiz</strong>
-                                <small>Test what you remember</small>
-                            </span>
-                        </a>
-
-
-                        <a href="revision.html" class="quick-action">
-                            <span class="quick-action-icon revision-action">
-                                <i class="fa-solid fa-rotate-right"></i>
-                            </span>
-
-                            <span class="quick-action-text">
-                                <strong>Smart revision</strong>
-                                <small>Review cards again</small>
-                            </span>
-                        </a>
-
-                    </div>
-
-                </section>
-
-
-                <!-- RECENT FLASHCARDS -->
-                <section class="panel recent-panel">
-
-                    <div class="panel-heading">
-
-                        <div>
-                            <h2>Recently added flashcards</h2>
-                            <p>Your latest learning materials.</p>
-                        </div>
-
-                        <a href="flashcards.html" class="view-link">
-                            View all →
-                        </a>
-
-                    </div>
-
-                    <div class="recent-list" id="recentFlashcards">
-
-                        <!-- Populated by dashboard.js -->
-
-                    </div>
-
-                </section>
-
-
-                <!-- STUDY TIPS -->
-                <section class="panel study-tip-panel">
-
-                    <div class="tip-decoration">✦</div>
-
-                    <span class="tip-label">YOUR DAILY REMINDER</span>
-
-                    <h2>Consistency beats cramming.</h2>
-
-                    <p>
-                        Review your flashcards regularly instead of waiting
-                        until the last minute. Small sessions add up.
-                    </p>
-
-                    <a href="study.html" class="tip-button">
-                        Start a study session <span>→</span>
-                    </a>
-
-                </section>
-
-            </div>
-
-
-            <!-- FOOTER -->
-            <footer class="dashboard-footer">
-
-                <p>
-                    © <span id="footerYear"></span> Flashcard Coach.
-                    Learn smarter, every day.
-                </p>
-
-                <a href="settings.html">Manage your preferences</a>
-
-            </footer>
-
+        <div class="topbar-end">
+            <span class="today-date" id="todayDate"></span>
+            <a class="profile-link" href="settings.html" aria-label="Open profile settings"><span class="avatar" id="topAvatar">S</span><span class="profile-name" id="topUserName">Student</span><i class="fa-solid fa-chevron-down"></i></a>
         </div>
+    </header>
 
-    </main>
+    <div class="page-content">
+        <div class="status-notice" id="dashboardNotice" role="status">Loading your learning data…</div>
+        <section class="welcome-banner">
+            <div class="welcome-copy">
+                <span class="welcome-kicker"><span class="live-dot"></span> YOUR LEARNING SPACE</span>
+                <h1><span id="greetingLabel">Good day</span>, <span id="welcomeName">Student</span>!</h1>
+                <p>Ready to strengthen your memory today? Let’s make every study session count.</p>
+                <a class="button button-light" href="study.html"><i class="fa-solid fa-play"></i> Continue learning</a>
+            </div>
+            <div class="banner-art" aria-hidden="true"><div class="art-orbit"></div><div class="art-card"><i class="fa-solid fa-brain"></i><span>Learn</span><b>Remember</b></div><i class="fa-solid fa-sparkles art-sparkle"></i></div>
+        </section>
 
-</div>
+        <section class="stats-grid" aria-label="Learning statistics">
+            <article class="stat-card"><div class="stat-head"><span class="stat-icon icon-blue"><i class="fa-solid fa-layer-group"></i></span><span class="stat-caption">COLLECTION</span></div><div class="stat-value" id="totalCards">—</div><h2>Total Flashcards</h2><p>Cards in your collection</p></article>
+            <article class="stat-card"><div class="stat-head"><span class="stat-icon icon-purple"><i class="fa-solid fa-circle-check"></i></span><span class="stat-caption">MASTERY</span></div><div class="stat-value" id="cardsMastered">—</div><h2>Cards Mastered</h2><p id="masteryNote">Not available yet</p></article>
+            <article class="stat-card"><div class="stat-head"><span class="stat-icon icon-orange"><i class="fa-solid fa-rotate"></i></span><span class="stat-caption">REVISION</span></div><div class="stat-value" id="dueCards">—</div><h2>Due for Revision</h2><p>Ready for another review</p></article>
+            <article class="stat-card"><div class="stat-head"><span class="stat-icon icon-green"><i class="fa-solid fa-fire"></i></span><span class="stat-caption">CONSISTENCY</span></div><div class="stat-value stat-with-unit"><span id="studyStreak">—</span><small>days</small></div><h2>Study Streak</h2><p>Consecutive study days</p></article>
+        </section>
 
+        <section class="overview-grid">
+            <article class="panel continue-panel">
+                <div class="section-heading"><div><span class="section-eyebrow">PICK UP WHERE YOU LEFT OFF</span><h2 id="continueTitle">Ready when you are</h2></div><span class="heading-icon"><i class="fa-solid fa-book-open"></i></span></div>
+                <p id="continueDescription">Start a study session with your flashcards and keep building your knowledge.</p>
+                <div class="continue-meta" id="continueMeta" hidden><span id="continueCardCount"></span><span id="continueProgress"></span></div>
+                <a class="button button-primary" id="continueButton" href="study.html">Continue Learning <i class="fa-solid fa-arrow-right"></i></a>
+            </article>
+
+            <article class="panel goal-panel">
+                <div class="section-heading"><div><span class="section-eyebrow">YOUR DAILY PRACTICE</span><h2>Daily study goal</h2></div><a class="text-link" href="settings.html">Edit goal</a></div>
+                <div class="goal-content"><div class="goal-ring" id="goalRing" role="progressbar" aria-label="Daily study goal progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="goal-ring-inner"><strong id="goalPercent">0%</strong><span>complete</span></div></div><div class="goal-details"><p><strong id="todayCards">0</strong> of <span id="dailyGoal">20</span> cards reviewed</p><span class="goal-message" id="progressMessage">Let’s get started!</span><span class="goal-remaining" id="remainingCards">20 cards to go</span></div></div>
+            </article>
+        </section>
+
+        <section class="section-block" id="studyTopics">
+            <div class="section-heading section-heading-outside"><div><span class="section-eyebrow">AZ-900 FUNDAMENTALS</span><h2>Study topics</h2><p>Choose a topic to explore your flashcards.</p></div><a class="text-link" href="study.html">Study all topics <i class="fa-solid fa-arrow-right"></i></a></div>
+            <div class="topics-grid" id="topicList" aria-live="polite"></div>
+            <div class="other-topics" id="otherTopics" hidden></div>
+        </section>
+
+        <section class="lower-grid">
+            <article class="panel activity-panel">
+                <div class="section-heading"><div><span class="section-eyebrow">YOUR LATEST SESSIONS</span><h2>Recent activity</h2></div><a class="text-link" href="analytics.html">View all <i class="fa-solid fa-arrow-right"></i></a></div>
+                <div class="activity-list" id="recentActivity" aria-live="polite"></div>
+            </article>
+            <article class="panel actions-panel">
+                <div class="section-heading"><div><span class="section-eyebrow">JUMP RIGHT IN</span><h2>Quick actions</h2></div></div>
+                <a class="action-row" href="create-flashcard.html"><span class="action-icon action-blue"><i class="fa-solid fa-plus"></i></span><span><strong>Create flashcards</strong><small>Add new cards to a topic</small></span><i class="fa-solid fa-arrow-right action-arrow"></i></a>
+                <a class="action-row" href="revision.html"><span class="action-icon action-orange"><i class="fa-solid fa-rotate"></i></span><span><strong>Start revision</strong><small>Review cards that are due</small></span><i class="fa-solid fa-arrow-right action-arrow"></i></a>
+                <a class="action-row" href="analytics.html"><span class="action-icon action-purple"><i class="fa-solid fa-chart-line"></i></span><span><strong>View my progress</strong><small>See your learning history</small></span><i class="fa-solid fa-arrow-right action-arrow"></i></a>
+            </article>
+        </section>
+
+        <footer class="page-footer"><span>© <span id="footerYear"></span> Flashcard Coach</span><span>Learn Smarter. Remember Longer.</span></footer>
+        <section class="app-disclaimer" aria-label="About Flashcard Coach">
+            <strong>About this study tool</strong>
+            <p>Flashcard Coach is an independent, unofficial study app. It is not affiliated with, endorsed by, or sponsored by Microsoft.</p>
+            <p>Practice questions are written for this app and are not real exam questions. Check the <a href="https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/az-900" target="_blank" rel="noopener noreferrer">official AZ-900 study guide on Microsoft Learn</a> for current exam objectives.</p>
+        </section>
+    </div>
+</main>
 </body>
 </html>

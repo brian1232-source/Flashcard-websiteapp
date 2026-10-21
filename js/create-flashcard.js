@@ -1,4 +1,5 @@
 "use strict";
+import { AZ900_AREAS } from "./az900-question-bank.js";
 
 // ======================================================
 // FLASHCARD COACH — CREATE FLASHCARD
@@ -471,7 +472,7 @@ function updatePreview() {
     const difficulty = difficultyInput.value;
     const favorite = favoriteInput.checked;
 
-    previewSubject.textContent = subject || "SELECT A SUBJECT";
+    previewSubject.textContent = subject || "SELECT A TOPIC";
 
     previewQuestion.textContent =
         question || title || "Your question will appear here.";
@@ -534,7 +535,7 @@ function validateForm() {
     }
 
     if (!subject) {
-        displayError("Please choose a subject.");
+        displayError("Please choose an AZ-900 topic.");
         subjectInput.focus();
         return false;
     }
@@ -764,6 +765,7 @@ function handleLogout() {
 function initializePage() {
     footerYear.textContent = new Date().getFullYear();
 
+    populateAZ900Topics();
     initializeUser();
     initializeMobileMenu();
     initializeProfileMenu();
@@ -802,6 +804,24 @@ function initializePage() {
     logoutButton.addEventListener("click", handleLogout);
 }
 
+function populateAZ900Topics() {
+    if (!subjectInput) return;
+    const placeholder = subjectInput.querySelector('option[value=""]');
+    subjectInput.replaceChildren();
+    if (placeholder) subjectInput.append(placeholder);
+    AZ900_AREAS.forEach(area => {
+        const group = document.createElement("optgroup");
+        group.label = area.name;
+        area.topics.forEach(([topic]) => {
+            const option = document.createElement("option");
+            option.value = topic;
+            option.textContent = topic;
+            group.append(option);
+        });
+        subjectInput.append(group);
+    });
+}
+
 function initializeProfileMenu() {
     const profileButton = $("#profileMenuToggle");
     const profileDropdown = $("#profileDropdown");
@@ -824,6 +844,8 @@ function initializeProfileMenu() {
         e.stopPropagation();
     });
 }
+
+populateAZ900Topics();
 
 document.addEventListener("DOMContentLoaded", async () => {
     await (window.firebaseStorageReady || Promise.resolve());

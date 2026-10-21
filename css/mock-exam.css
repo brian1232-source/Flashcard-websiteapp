@@ -1,0 +1,50 @@
+.page-container { width: min(980px, 100%); }
+.exam-setup .setup-fields { grid-template-columns: 1.2fr 1fr 1fr; }
+.topic-preview { margin-top: 15px; padding: 12px 14px; background: #f5f8ff; border: 1px solid #dce8ff; border-radius: 10px; }
+.topic-preview .eyebrow { font-size: 9px; }
+.topic-preview p { margin-top: 4px; color: var(--navy); font-size: 12px; font-weight: 600; line-height: 1.55; }
+.source-note { margin: 13px 0 0; color: var(--muted); font-size: 10px; }
+.source-note i { margin-right: 5px; color: var(--blue); }
+.exam-notice { margin: -6px 0 15px; padding: 10px 13px; color: #9a3412; background: #fff7ed; border: 1px solid #fed7aa; border-radius: 9px; font-size: 11px; }
+.exam-topline { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 17px; }
+.exam-timer { display: inline-flex; min-width: 91px; align-items: center; justify-content: center; gap: 7px; padding: 7px 10px; color: #1d4ed8; background: #eff6ff; border-radius: 8px; font-size: 13px; font-weight: 800; font-variant-numeric: tabular-nums; }
+.exam-timer.warning { color: #c2410c; background: #fff7ed; }
+.exam-timer.expired { color: #b91c1c; background: #fef2f2; }
+.answered-count { color: var(--muted); font-size: 10px; }
+.exam-question-map { display: flex; gap: 7px; margin: 14px 0 18px; padding: 2px 1px 7px; overflow-x: auto; }
+.question-number { position: relative; display: grid; width: 32px; height: 32px; flex: 0 0 32px; place-items: center; color: #64748b; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; font-size: 10px; font-weight: 700; }
+.question-number.answered { color: #1d4ed8; background: #eff6ff; border-color: #bfdbfe; }
+.question-number.current { outline: 2px solid #2563eb; outline-offset: 1px; }
+.question-number.marked::after { position: absolute; top: -4px; right: -3px; width: 8px; height: 8px; background: #f97316; border: 1px solid white; border-radius: 50%; content: ""; }
+.selection-hint { margin: -12px 0 14px; color: var(--muted); font-size: 10px; }
+.answer-option.selected { color: #1d4ed8; background: #eff6ff; border-color: #60a5fa; box-shadow: 0 0 0 1px #bfdbfe inset; }
+.answer-option.selected .option-letter { color: white; background: #2563eb; }
+.exam-controls { display: flex; align-items: center; justify-content: space-between; gap: 9px; margin-top: 20px; }
+.exam-controls button, .submit-exam { min-height: 39px; padding: 0 13px; border-radius: 8px; font-size: 10px; font-weight: 700; }
+.exam-controls .primary-button { color: white; background: #2563eb; border: 1px solid #2563eb; }
+.exam-controls .secondary-button { color: #475569; background: white; border: 1px solid #dbe2ec; }
+.exam-controls .secondary-button:disabled { opacity: .45; cursor: not-allowed; }
+.mark-button { color: #64748b; background: #fff; border: 1px solid transparent; }
+.mark-button:hover, .mark-button[aria-pressed="true"] { color: #c2410c; background: #fff7ed; }
+.mark-button[aria-pressed="true"] { border-color: #fed7aa; }
+.submit-exam { display: block; margin: 13px 0 0 auto; color: #b91c1c; background: #fff; border: 1px solid #fecaca; }
+.submit-exam:hover { background: #fef2f2; }
+.result-panel { max-width: 900px; }
+.result-stats { display: flex; justify-content: center; flex-wrap: wrap; gap: 10px 20px; margin: -5px 0 13px; color: var(--muted); font-size: 10px; }
+.result-stats strong { color: var(--navy); font-size: 15px; }
+.save-message { min-height: 17px; color: var(--muted); font-size: 10px; }
+.result-review { display: grid; gap: 8px; max-height: 330px; margin: 15px 0 20px; overflow: auto; text-align: left; }
+.review-answer { padding: 11px 13px; background: #f8fafc; border: 1px solid #edf1f6; border-radius: 9px; }
+.review-answer.correct { border-left: 3px solid #16a34a; }
+.review-answer.incorrect { border-left: 3px solid #ef4444; }
+.review-answer h3 { margin-bottom: 5px; font-size: 10px; line-height: 1.5; }
+.review-answer p { margin-top: 3px; color: var(--muted); font-size: 9px; line-height: 1.5; }
+.result-panel .result-actions { flex-wrap: wrap; }
+@media (max-width: 700px) {
+    .exam-setup .setup-fields { grid-template-columns: 1fr; }
+    .exam-panel { padding: 17px 14px; }
+    .exam-controls { flex-wrap: wrap; }
+    .mark-button { order: 3; width: 100%; }
+    .question-text { font-size: 19px; }
+    .result-stats { gap: 8px 13px; }
+}

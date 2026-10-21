@@ -1,0 +1,19 @@
+.study-topic-group { display: grid; gap: 2px; }
+.topic-dropdown-toggle { width: 100%; border: 0; text-align: left; cursor: pointer; font: inherit; }
+.topic-dropdown-toggle .topic-caret { margin-left: auto; font-size: .7em; transition: transform .18s ease; }
+.topic-dropdown-toggle[aria-expanded="true"] .topic-caret { transform: rotate(180deg); }
+.topic-submenu { display: grid; gap: 3px; padding: 3px 0 5px 13px; }
+.topic-submenu[hidden] { display: none; }
+.topic-submenu-link { min-height: 36px; font-size: .92em; }
+.topic-submenu-link > i { font-size: .82em; }
+.nav-link.topic-submenu-link, .nav-item.topic-submenu-link { padding-left: 12px; }
+.nav-link.topic-dropdown-toggle { display: flex; align-items: center; }
+.sidebar-nav > .study-topic-group { width: 100%; }
+.nav-list > .study-topic-group { width: 100%; }
+.topic-area { display: grid; gap: 2px; padding: 4px 3px; border-bottom: 1px solid #e9eef5; }
+.topic-area summary { padding: 7px 5px; color: #475467; cursor: pointer; font-size: 11px; font-weight: 750; line-height: 1.35; list-style-position: inside; }
+.topic-area summary:hover { color: #2563eb; }
+.topic-area .topic-submenu-link { min-height: 32px; padding: 4px 6px; font-size: 10px; line-height: 1.35; }
+.topic-area .topic-leaf { padding-left: 12px; font-weight: 500; }
+.topic-area .area-practice-link { font-weight: 700; }
+.topic-submenu { max-height: min(65vh, 540px); overflow-y: auto; }

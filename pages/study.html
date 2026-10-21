@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Study Mode | Flashcard Coach</title>
+    <meta
+        name="description"
+        content="Practice active recall, test your memory, and master your flashcards with Flashcard Coach."
+    >
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet"
+    >
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <link rel="stylesheet" href="../css/workspace-pages.css">
+    <link rel="stylesheet" href="../css/study-mode.css">
+</head>
+
+<body>
+
+<div class="app-layout">
+
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar">
+
+        <a href="dashboard.html" class="brand">
+            <img
+                src="../images/logo.png"
+                alt="Flashcard Coach logo"
+                class="brand-logo"
+            >
+
+            <span class="brand-name">
+                Flash<span>card</span>
+            </span>
+        </a>
+
+        <div class="sidebar-label">WORKSPACE</div>
+
+        <nav class="sidebar-nav" aria-label="Main navigation">
+
+            <a href="dashboard.html" class="nav-link">
+                <span class="nav-icon">
+                    <i class="fa-solid fa-gauge-high"></i>
+                </span>
+                <span>Dashboard</span>
+            </a>
+
+            <a href="flashcards.html" class="nav-link">
+                <span class="nav-icon">
+                    <i class="fa-solid fa-cards"></i>
+                </span>
+                <span>My Flashcards</span>
+            </a>
+
+            <a href="create-flashcard.html" class="nav-link">
+                <span class="nav-icon">
+                    <i class="fa-solid fa-plus"></i>
+                </span>
+                <span>Create Flashcards</span>
+            </a>
+
+            <a href="study.html" class="nav-link active">
+                <span class="nav-icon">
+                    <i class="fa-solid fa-book"></i>
+                </span>
+                <span>Study Mode</span>
+            </a>
+
+            <a href="quiz.html" class="nav-link">
+                <span class="nav-icon">
+                    <i class="fa-solid fa-circle-question"></i>
+                </span>
+                <span>Quick Quiz</span>
+            </a>
+
+            <a href="revision.html" class="nav-link">
+                <span class="nav-icon">
+                    <i class="fa-solid fa-rotate-right"></i>
+                </span>
+                <span>Smart Revision</span>
+            </a>
+
+            <a href="analytics.html" class="nav-link">
+                <span class="nav-icon">
+                    <i class="fa-solid fa-chart-line"></i>
+                </span>
+                <span>Analytics</span>
+            </a>
+
+            <div class="sidebar-label secondary-label">PREFERENCES</div>
+
+            <a href="settings.html" class="nav-link">
+                <span class="nav-icon">
+                    <i class="fa-solid fa-gear"></i>
+                </span>
+                <span>Settings</span>
+            </a>
+
+        </nav>
+
+        <div class="sidebar-bottom">
+
+            <div class="sidebar-tip">
+                <span class="tip-star">
+                    <i class="fa-solid fa-sparkles"></i>
+                </span>
+                <h3>Active recall power!</h3>
+                <p>Testing yourself before checking the answer strengthens memory retention.</p>
+
+                <a href="flashcards.html">Browse all cards</a>
+            </div>
+
+            <button type="button" class="logout-button" id="logoutButton">
+                <span class="nav-icon">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                </span>
+                <span>Sign out</span>
+            </button>
+
+        </div>
+
+    </aside>
+
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+
+        <!-- TOP BAR -->
+        <header class="topbar">
+
+            <div class="topbar-left">
+
+                <button
+                    type="button"
+                    class="menu-toggle"
+                    id="menuToggle"
+                    aria-label="Open navigation menu"
+                    aria-expanded="false"
+                >
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+
+                <div class="breadcrumb">
+                    <span>Workspace</span>
+                    <span class="breadcrumb-separator">/</span>
+                    <strong>Study Mode</strong>
+                </div>
+
+            </div>
+
+            <div class="topbar-right">
+
+                <div class="today-date" id="todayDate"></div>
+
+                <div class="profile-menu">
+                    <button
+                        type="button"
+                        class="profile-button"
+                        id="profileMenuToggle"
+                        aria-label="Open profile menu"
+                        aria-expanded="false"
+                    >
+                        <span class="avatar" id="topAvatar">
+                            <i class="fa-solid fa-user"></i>
+                        </span>
+
+                        <span class="profile-text">
+                            <strong id="topUserName">Student</strong>
+                            <small>Learner</small>
+                        </span>
+
+                        <span class="profile-arrow">
+                            <i class="fa-solid fa-chevron-down"></i>
+                        </span>
+                    </button>
+
+                    <div class="profile-dropdown" id="profileDropdown" hidden>
+                        <a href="settings.html" class="dropdown-item">
+                            <i class="fa-solid fa-user"></i>
+                            <span>Profile Settings</span>
+                        </a>
+
+                        <a href="flashcards.html" class="dropdown-item">
+                            <i class="fa-solid fa-cards"></i>
+                            <span>My Flashcards</span>
+                        </a>
+
+                        <a href="study.html" class="dropdown-item">
+                            <i class="fa-solid fa-book"></i>
+                            <span>Study Mode</span>
+                        </a>
+
+                        <div class="dropdown-divider"></div>
+
+                        <button type="button" class="dropdown-item logout-dropdown" id="logoutDropdownButton">
+                            <i class="fa-solid fa-right-from-bracket"></i>
+                            <span>Sign out</span>
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <!-- PAGE CONTENT -->
+        <div class="page-container">
+
+            <!-- PAGE HEADER -->
+            <section class="page-header">
+
+                <div class="page-heading">
+                    <span class="eyebrow">ACTIVE RECALL &amp; RETENTION</span>
+                    <h1>Study Mode<span class="heading-dot">.</span></h1>
+                    <p>
+                        Practice active recall, test your memory, and track your session mastery in real time.
+                    </p>
+                </div>
+
+                <div class="header-actions">
+                    <a href="flashcards.html" class="secondary-button">
+                        <i class="fa-solid fa-cards"></i>
+                        <span>My Flashcards</span>
+                    </a>
+                    <a href="create-flashcard.html" class="primary-button">
+                        <i class="fa-solid fa-plus"></i>
+                        <span>Create flashcard</span>
+                    </a>
+                </div>
+
+            </section>
+
+
+            <!-- SESSION TOOLBAR -->
+            <section class="session-toolbar">
+
+                <div class="toolbar-left">
+                    <div class="toolbar-field">
+                        <label for="subjectSelect">
+                            <i class="fa-solid fa-tag"></i>
+                            <span>Study subject</span>
+                        </label>
+                        <div class="select-wrapper">
+                            <select id="subjectSelect">
+                                <option value="all">All subjects</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <label class="shuffle-control" for="shuffleToggle">
+                        <input type="checkbox" id="shuffleToggle">
+                        <span class="switch"></span>
+                        <span class="shuffle-label">
+                            <i class="fa-solid fa-shuffle"></i>
+                            <span>Shuffle cards</span>
+                        </span>
+                    </label>
+                </div>
+
+                <div class="toolbar-right">
+                    <button type="button" class="secondary-button restart-button" id="restartButton">
+                        <i class="fa-solid fa-rotate-right"></i>
+                        <span>Restart session</span>
+                    </button>
+                </div>
+
+            </section>
+
+
+            <!-- STATISTICS -->
+            <section class="collection-stats">
+
+                <article class="mini-stat">
+                    <div class="mini-stat-icon blue-bg">
+                        <i class="fa-solid fa-layer-group"></i>
+                    </div>
+                    <div class="mini-stat-info">
+                        <span class="mini-stat-label">Total cards</span>
+                        <strong class="mini-stat-value" id="totalCards">0</strong>
+                    </div>
+                </article>
+
+                <article class="mini-stat">
+                    <div class="mini-stat-icon green-bg">
+                        <i class="fa-solid fa-circle-check"></i>
+                    </div>
+                    <div class="mini-stat-info">
+                        <span class="mini-stat-label">Know it!</span>
+                        <strong class="mini-stat-value" id="knownCards">0</strong>
+                    </div>
+                </article>
+
+                <article class="mini-stat">
+                    <div class="mini-stat-icon orange-bg">
+                        <i class="fa-solid fa-rotate-right"></i>
+                    </div>
+                    <div class="mini-stat-info">
+                        <span class="mini-stat-label">Still learning</span>
+                        <strong class="mini-stat-value" id="learningCards">0</strong>
+                    </div>
+                </article>
+
+                <article class="mini-stat">
+                    <div class="mini-stat-icon purple-bg">
+                        <i class="fa-solid fa-chart-pie"></i>
+                    </div>
+                    <div class="mini-stat-info">
+                        <span class="mini-stat-label">Session progress</span>
+                        <strong class="mini-stat-value" id="progressPercent">0%</strong>
+                    </div>
+                </article>
+
+            </section>
+
+
+            <!-- STUDY WORKSPACE -->
+            <section class="study-layout" id="studyWorkspace">
+
+                <div class="study-main">
+
+                    <div class="study-section-heading">
+                        <div class="study-heading-text">
+                            <h2>Active Flashcard</h2>
+                            <p>Think of the answer before revealing it.</p>
+                        </div>
+
+                        <span class="session-badge" id="sessionBadge">Ready to learn</span>
+                    </div>
+
+                    <!-- Progress bar -->
+                    <div class="progress-section">
+                        <div class="progress-labels">
+                            <span id="cardPosition">Card 0 of 0</span>
+                            <span id="progressLabel">0% completed</span>
+                        </div>
+
+                        <div class="progress-track">
+                            <div class="progress-fill" id="progressFill"></div>
+                        </div>
+                    </div>
+
+                    <!-- Flashcard stage -->
+                    <div class="card-stage">
+                        <button
+                            type="button"
+                            class="card-arrow previous-arrow"
+                            id="previousButton"
+                            aria-label="Previous flashcard"
+                            title="Previous card (Left Arrow)"
+                        >
+                            <i class="fa-solid fa-chevron-left"></i>
+                        </button>
+
+                        <div
+                            role="button"
+                            tabindex="0"
+                            class="study-card"
+                            id="studyCard"
+                            aria-label="Flashcard. Click or press Space to reveal the answer."
+                            aria-pressed="false"
+                        >
+                            <div class="card-inner" id="cardInner">
+
+                                <!-- FRONT (QUESTION) -->
+                                <div class="card-face card-front">
+                                    <div class="card-top">
+                                        <span class="card-brand">
+                                            <i class="fa-solid fa-cards"></i>
+                                            <span>FLASHCARD COACH</span>
+                                        </span>
+                                        <div class="card-top-actions">
+                                            <span class="difficulty-pill medium" id="cardDifficulty">MEDIUM</span>
+                                            <span class="card-side-label">
+                                                <i class="fa-regular fa-circle-question"></i>
+                                                <span>QUESTION</span>
+                                            </span>
+                                            <button
+                                                type="button"
+                                                class="card-icon-button"
+                                                id="speakQuestionButton"
+                                                aria-label="Listen to question"
+                                                title="Read aloud"
+                                            >
+                                                <i class="fa-solid fa-volume-high"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    <div class="card-middle">
+                                        <span class="subject-pill" id="cardSubject">SUBJECT</span>
+                                        <span class="question-label">YOUR QUESTION</span>
+                                        <h2 id="cardQuestion">Your question will appear here.</h2>
+                                        <p id="cardTitle">Flashcard title</p>
+                                    </div>
+
+                                    <div class="card-bottom">
+                                        <span class="card-hint">
+                                            <i class="fa-solid fa-hand-pointer"></i>
+                                            <span>Click or press <kbd>Space</kbd> to reveal</span>
+                                        </span>
+                                        <div class="card-bottom-right">
+                                            <button type="button" class="flip-action-button" id="cardFlipActionButton" title="Flip card">
+                                                <i class="fa-solid fa-rotate"></i>
+                                                <span>Flip</span>
+                                            </button>
+                                            <span class="card-side-indicator">01 / QUESTION</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- BACK (ANSWER) -->
+                                <div class="card-face card-back">
+                                    <div class="card-top">
+                                        <span class="card-brand">
+                                            <i class="fa-solid fa-cards"></i>
+                                            <span>FLASHCARD COACH</span>
+                                        </span>
+                                        <div class="card-top-actions">
+                                            <span class="difficulty-pill medium" id="cardDifficultyBack">MEDIUM</span>
+                                            <span class="answer-side-label">
+                                                <i class="fa-regular fa-circle-check"></i>
+                                                <span>ANSWER</span>
+                                            </span>
+                                            <button
+                                                type="button"
+                                                class="card-icon-button"
+                                                id="speakAnswerButton"
+                                                aria-label="Listen to answer"
+                                                title="Read aloud"
+                                            >
+                                                <i class="fa-solid fa-volume-high"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    <div class="card-middle">
+                                        <span class="subject-pill" id="cardSubjectBack">SUBJECT</span>
+                                        <span class="question-label">THE ANSWER</span>
+                                        <h2 id="cardAnswer">Your answer will appear here.</h2>
+
+                                        <div class="extra-notes" id="cardNotesContainer">
+                                            <strong>
+                                                <i class="fa-solid fa-lightbulb"></i>
+                                                <span>Extra Notes</span>
+                                            </strong>
+                                            <p id="cardNotes"></p>
+                                        </div>
+                                    </div>
+
+                                    <div class="card-bottom">
+                                        <span class="card-hint">
+                                            <i class="fa-solid fa-star-half-stroke"></i>
+                                            <span>Rate your recall below</span>
+                                        </span>
+                                        <span class="card-side-indicator">02 / ANSWER</span>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <button
+                            type="button"
+                            class="card-arrow next-arrow"
+                            id="nextButton"
+                            aria-label="Next flashcard"
+                            title="Next card (Right Arrow)"
+                        >
+                            <i class="fa-solid fa-chevron-right"></i>
+                        </button>
+                    </div>
+
+                    <!-- Flip hint badge -->
+                    <div class="flip-hint">
+                        <i class="fa-solid fa-rotate"></i>
+                        <span>Click card or press <kbd>Space</kbd> to reveal the answer</span>
+                    </div>
+
+                    <!-- Answer actions -->
+                    <div class="answer-actions" id="answerActions">
+                        <button type="button" class="answer-button learning-button" id="stillLearningButton">
+                            <span class="answer-button-icon">
+                                <i class="fa-solid fa-rotate-right"></i>
+                            </span>
+                            <span class="answer-button-text">
+                                <span class="answer-button-title-row">
+                                    <strong>Still learning</strong>
+                                    <kbd class="shortcut-tag">L</kbd>
+                                </span>
+                                <small>Review this card again soon</small>
+                            </span>
+                        </button>
+
+                        <button type="button" class="answer-button know-button" id="knowButton">
+                            <span class="answer-button-icon">
+                                <i class="fa-solid fa-circle-check"></i>
+                            </span>
+                            <span class="answer-button-text">
+                                <span class="answer-button-title-row">
+                                    <strong>Know it!</strong>
+                                    <kbd class="shortcut-tag">K</kbd>
+                                </span>
+                                <small>I remembered the answer correctly</small>
+                            </span>
+                        </button>
+                    </div>
+
+                    <p class="answer-message" id="answerMessage" aria-live="polite"></p>
+
+                    <!-- Navigation footer -->
+                    <div class="card-navigation">
+                        <button type="button" class="secondary-button" id="previousTextButton">
+                            <i class="fa-solid fa-arrow-left"></i>
+                            <span>Previous</span>
+                        </button>
+
+                        <div class="navigation-counter-pill">
+                            <span id="navigationCounter">0 / 0</span>
+                        </div>
+
+                        <button type="button" class="primary-button" id="nextTextButton">
+                            <span>Next</span>
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                    </div>
+
+                </div>
+
+                <!-- Right sidebar -->
+                <aside class="study-sidebar">
+
+                    <!-- Panel 1: Session Summary -->
+                    <div class="side-panel">
+                        <div class="side-panel-heading">
+                            <h3>Session Summary</h3>
+                            <span class="summary-icon"><i class="fa-solid fa-chart-pie"></i></span>
+                        </div>
+
+                        <div class="summary-circle" id="summaryCircle">
+                            <div>
+                                <strong id="summaryPercent">0%</strong>
+                                <span>completed</span>
+                            </div>
+                        </div>
+
+                        <p class="summary-description" id="summaryDescription">
+                            Your progress will appear here as you study.
+                        </p>
+
+                        <div class="summary-row">
+                            <span><i class="legend-dot green-dot"></i> Know it</span>
+                            <strong id="summaryKnown">0</strong>
+                        </div>
+
+                        <div class="summary-row">
+                            <span><i class="legend-dot orange-dot"></i> Still learning</span>
+                            <strong id="summaryLearning">0</strong>
+                        </div>
+
+                        <div class="summary-row">
+                            <span><i class="legend-dot grey-dot"></i> Not reviewed</span>
+                            <strong id="summaryRemaining">0</strong>
+                        </div>
+                    </div>
+
+                    <!-- Panel 2: Keyboard shortcuts guide -->
+                    <div class="side-panel shortcuts-panel">
+                        <div class="side-panel-heading">
+                            <h3>Shortcuts</h3>
+                            <span class="summary-icon"><i class="fa-solid fa-keyboard"></i></span>
+                        </div>
+
+                        <div class="shortcut-list">
+                            <div class="shortcut-item">
+                                <kbd>Space</kbd>
+                                <span>Flip card / reveal answer</span>
+                            </div>
+                            <div class="shortcut-item">
+                                <kbd>K</kbd>
+                                <span>Mark as "Know it!"</span>
+                            </div>
+                            <div class="shortcut-item">
+                                <kbd>L</kbd>
+                                <span>Mark as "Still learning"</span>
+                            </div>
+                            <div class="shortcut-item">
+                                <div class="kbd-pair">
+                                    <kbd>&larr;</kbd>
+                                    <kbd>&rarr;</kbd>
+                                </div>
+                                <span>Previous / Next card</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Panel 3: Study tips -->
+                    <div class="side-panel tips-panel">
+                        <div class="side-panel-heading">
+                            <h3>Study Smarter</h3>
+                            <span class="tip-sparkle"><i class="fa-solid fa-sparkles"></i></span>
+                        </div>
+
+                        <div class="study-tip">
+                            <span class="tip-number">01</span>
+                            <div>
+                                <strong>Active recall</strong>
+                                <p>Try answering in your head before flipping.</p>
+                            </div>
+                        </div>
+
+                        <div class="study-tip">
+                            <span class="tip-number">02</span>
+                            <div>
+                                <strong>Be honest</strong>
+                                <p>Select "Know it" only when confident.</p>
+                            </div>
+                        </div>
+
+                        <div class="study-tip">
+                            <span class="tip-number">03</span>
+                            <div>
+                                <strong>Spaced review</strong>
+                                <p>Repeat difficult cards to lock in retention.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="button" class="finish-button" id="finishButton">
+                        <span>Finish study session</span>
+                        <i class="fa-solid fa-flag-checkered"></i>
+                    </button>
+
+                </aside>
+
+            </section>
+
+
+            <!-- EMPTY STATE -->
+            <section class="empty-state" id="emptyState" hidden>
+                <div class="empty-illustration">
+                    <i class="fa-solid fa-cards"></i>
+                </div>
+                <h2 id="emptyTitle">No flashcards to study yet</h2>
+                <p id="emptyDescription">
+                    Create your first flashcard and return here to begin studying.
+                </p>
+                <div class="empty-actions">
+                    <a href="create-flashcard.html" class="primary-button">
+                        <i class="fa-solid fa-plus"></i>
+                        <span>Create flashcard</span>
+                    </a>
+                    <a href="flashcards.html" class="secondary-button">
+                        <i class="fa-solid fa-cards"></i>
+                        <span>View my flashcards</span>
+                    </a>
+                </div>
+            </section>
+
+
+            <!-- COMPLETION SCREEN -->
+            <section class="completion-state" id="completionState" hidden>
+                <div class="completion-icon">
+                    <i class="fa-solid fa-trophy"></i>
+                </div>
+                <div class="eyebrow">SESSION COMPLETED</div>
+                <h2 id="completionTitle">Great work!</h2>
+                <p id="completionDescription">
+                    You have finished this study session.
+                </p>
+
+                <div class="completion-stats">
+                    <div class="completion-stat-col">
+                        <strong id="finalTotal">0</strong>
+                        <span>Cards studied</span>
+                    </div>
+                    <div class="completion-stat-col">
+                        <strong id="finalKnown" class="color-green">0</strong>
+                        <span>Know it</span>
+                    </div>
+                    <div class="completion-stat-col">
+                        <strong id="finalLearning" class="color-orange">0</strong>
+                        <span>Still learning</span>
+                    </div>
+                    <div class="completion-stat-col">
+                        <strong id="finalAccuracy" class="color-purple">0%</strong>
+                        <span>Mastery rate</span>
+                    </div>
+                </div>
+
+                <div class="completion-actions">
+                    <button type="button" class="primary-button" id="studyAgainButton">
+                        <i class="fa-solid fa-rotate-right"></i>
+                        <span>Study again</span>
+                    </button>
+                    <a href="flashcards.html" class="secondary-button">
+                        <i class="fa-solid fa-cards"></i>
+                        <span>My Flashcards</span>
+                    </a>
+                    <a href="dashboard.html" class="secondary-button">
+                        <i class="fa-solid fa-gauge-high"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </div>
+            </section>
+
+
+            <!-- FOOTER -->
+            <footer class="page-footer">
+                <span>&copy; <span id="footerYear"></span> Flashcard Coach. All rights reserved.</span>
+                <span>Active Recall &bull; Learn Smarter <i class="fa-solid fa-sparkles"></i></span>
+            </footer>
+
+        </div>
+
+    </main>
+
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script type="module" src="../js/firebase-storage-bootstrap.js"></script>
+<script src="../js/study.js"></script>
+</body>
+</html>

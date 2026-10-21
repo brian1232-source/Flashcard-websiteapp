@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analytics | Flashcard Coach</title>
+    <meta name="description" content="Track study activity, subject mastery, and quiz performance.">
+    <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../css/workspace-pages.css"><link rel="stylesheet" href="../css/analytics.css">
+    <script type="module" src="../js/firebase-storage-bootstrap.js"></script>
+    <script src="../js/analytics.js" defer></script>
+</head>
+<body>
+<div class="app-layout">
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+    <aside class="sidebar" id="sidebar">
+        <a href="dashboard.html" class="brand"><img src="../images/logo.png" alt="" class="brand-logo"><span class="brand-name">Flash<span>card</span></span></a>
+        <div class="sidebar-label">WORKSPACE</div>
+        <nav class="sidebar-nav" aria-label="Main navigation">
+            <a href="dashboard.html" class="nav-link"><span class="nav-icon"><i class="fa-solid fa-gauge-high"></i></span><span>Dashboard</span></a>
+            <a href="flashcards.html" class="nav-link"><span class="nav-icon"><i class="fa-solid fa-layer-group"></i></span><span>My Flashcards</span></a>
+            <a href="create-flashcard.html" class="nav-link"><span class="nav-icon"><i class="fa-solid fa-plus"></i></span><span>Create Flashcards</span></a>
+            <a href="study.html" class="nav-link"><span class="nav-icon"><i class="fa-solid fa-book"></i></span><span>Study Mode</span></a>
+            <a href="quiz.html" class="nav-link"><span class="nav-icon"><i class="fa-solid fa-circle-question"></i></span><span>Quick Quiz</span></a>
+            <a href="revision.html" class="nav-link"><span class="nav-icon"><i class="fa-solid fa-rotate-right"></i></span><span>Smart Revision</span></a>
+            <a href="analytics.html" class="nav-link active" aria-current="page"><span class="nav-icon"><i class="fa-solid fa-chart-line"></i></span><span>Analytics</span></a>
+            <div class="sidebar-label secondary-label">PREFERENCES</div>
+            <a href="settings.html" class="nav-link"><span class="nav-icon"><i class="fa-solid fa-gear"></i></span><span>Settings</span></a>
+        </nav>
+        <div class="sidebar-bottom"><div class="sidebar-tip"><h3>Progress adds up.</h3><p>Short, regular sessions help you build a lasting study habit.</p><a href="study.html">Continue studying</a></div><button type="button" class="logout-button" id="logoutButton"><i class="fa-solid fa-right-from-bracket"></i><span>Sign out</span></button></div>
+    </aside>
+    <main class="main-content">
+        <header class="topbar"><div class="topbar-left"><button type="button" class="menu-toggle" id="menuToggle" aria-label="Open navigation menu" aria-expanded="false"><i class="fa-solid fa-bars"></i></button><div class="breadcrumb"><span>Workspace</span><span class="breadcrumb-separator">/</span><strong>Analytics</strong></div></div><div class="topbar-right"><span class="today-date" id="todayDate"></span><div class="profile-menu"><button type="button" class="profile-button" id="profileMenuToggle" aria-label="Open profile menu" aria-expanded="false"><span class="avatar" id="topAvatar">S</span><strong id="topUserName">Student</strong><i class="fa-solid fa-chevron-down"></i></button><div class="profile-dropdown" id="profileDropdown" hidden><a class="dropdown-item" href="settings.html"><i class="fa-solid fa-gear"></i> Settings</a><a class="dropdown-item" href="dashboard.html"><i class="fa-solid fa-gauge-high"></i> Dashboard</a><button type="button" class="dropdown-item" id="dropdownLogout"><i class="fa-solid fa-right-from-bracket"></i> Sign out</button></div></div></div></header>
+        <div class="workspace-content analytics-content">
+            <section class="workspace-header analytics-header"><div><span class="eyebrow">YOUR LEARNING DATA</span><h1>Analytics</h1><p>See your study habits, quiz results, and progress by subject.</p></div><label class="range-picker" for="dateRange"><i class="fa-regular fa-calendar"></i><span>Time period</span><select id="dateRange"><option value="7">Last 7 days</option><option value="30" selected>Last 30 days</option><option value="90">Last 90 days</option><option value="all">All time</option></select></label></section>
+            <section class="metrics-grid" aria-label="Learning summary">
+                <article class="metric-card"><span class="metric-icon cards-icon"><i class="fa-solid fa-layer-group"></i></span><div><span class="metric-label">Flashcards</span><strong class="metric-value" id="metricTotalCards">0</strong><small>in your library</small></div></article>
+                <article class="metric-card"><span class="metric-icon study-icon"><i class="fa-solid fa-book-open"></i></span><div><span class="metric-label">Cards reviewed</span><strong class="metric-value" id="metricReviewed">0</strong><small id="reviewedPeriod">in the last 30 days</small></div></article>
+                <article class="metric-card"><span class="metric-icon streak-icon"><i class="fa-solid fa-fire"></i></span><div><span class="metric-label">Study days</span><strong class="metric-value" id="metricStudyDays">0</strong><small id="studyDaysPeriod">in the last 30 days</small></div></article>
+                <article class="metric-card"><span class="metric-icon quiz-icon"><i class="fa-solid fa-bullseye"></i></span><div><span class="metric-label">Average quiz score</span><strong class="metric-value"><span id="metricQuizAverage">0</span><small>%</small></strong><small id="quizCountLabel">No quizzes yet</small></div></article>
+            </section>
+            <section class="analytics-grid">
+                <article class="analytics-card activity-card"><div class="card-heading"><div><h2>Study activity</h2><p>Cards reviewed each day</p></div><span class="heading-icon blue"><i class="fa-solid fa-chart-column"></i></span></div><div class="activity-chart" id="activityChart" role="img" aria-label="Daily study activity chart"></div><p class="chart-empty" id="activityEmpty" hidden>No study sessions in this time period yet.</p></article>
+                <article class="analytics-card mastery-card"><div class="card-heading"><div><h2>Subject mastery</h2><p>Based on your flashcard ratings</p></div><span class="heading-icon green"><i class="fa-solid fa-book-bookmark"></i></span></div><div class="mastery-list" id="masteryList"></div><p class="chart-empty" id="masteryEmpty" hidden>Study and rate your flashcards to see subject mastery.</p></article>
+                <article class="analytics-card quiz-card"><div class="card-heading"><div><h2>Recent quiz results</h2><p>Your latest quiz attempts</p></div><a class="view-all" href="quiz.html">Take a quiz <i class="fa-solid fa-arrow-right"></i></a></div><div class="quiz-table-wrap"><table><thead><tr><th>Subject</th><th>Date</th><th>Score</th></tr></thead><tbody id="quizHistoryRows"></tbody></table></div><p class="chart-empty" id="quizEmpty" hidden>No quiz results yet. Take a quick quiz to see your results here.</p></article>
+                <article class="analytics-card insight-card"><span class="insight-art"><i class="fa-solid fa-lightbulb"></i></span><div><span class="eyebrow">A SMALL NUDGE</span><h2 id="insightTitle">Your learning journey starts here</h2><p id="insightText">Study a few flashcards or take a quiz to see personalized progress insights.</p></div><a href="study.html" class="insight-link">Start a study session <i class="fa-solid fa-arrow-right"></i></a></article>
+            </section>
+        </div>
+    </main>
+</div>
+</body>
+</html>

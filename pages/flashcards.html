@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>My Flashcards | Flashcard Coach</title>
+    <meta
+        name="description"
+        content="Create, organize, search and study your flashcards with Flashcard Coach."
+    >
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet"
+    >
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <link rel="stylesheet" href="../css/flashcards.css">
+    <script type="module" src="../js/firebase-storage-bootstrap.js"></script>
+    <script src="../js/flashcards.js" defer></script>
+</head>
+
+<body>
+
+<div class="app-layout">
+
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar">
+
+<a href="dashboard.html" class="brand">
+            <img
+                src="../images/logo.png"
+                alt="Flashcard Coach logo"
+                class="brand-logo"
+            >
+
+            <span class="brand-name">
+                Flash<span>card</span>
+            </span>
+        </a>
+
+        <div class="sidebar-label">WORKSPACE</div>
+
+        <nav class="sidebar-nav" aria-label="Main navigation">
+
+            <a href="dashboard.html" class="nav-link">
+                <span class="nav-icon">
+                    <i class="fa-solid fa-gauge-high"></i>
+                </span>
+                <span>Dashboard</span>
+            </a>
+
+            <a href="flashcards.html" class="nav-link active">
+                <span class="nav-icon">
+                    <i class="fa-solid fa-cards"></i>
+                </span>
+                <span>My Flashcards</span>
+            </a>
+
+            <a href="create-flashcard.html" class="nav-link">
+                <span class="nav-icon">
+                    <i class="fa-solid fa-plus"></i>
+                </span>
+                <span>Create Flashcards</span>
+            </a>
+
+            <a href="study.html" class="nav-link">
+                <span class="nav-icon">
+                    <i class="fa-solid fa-book"></i>
+                </span>
+                <span>Study Mode</span>
+            </a>
+
+            <a href="quiz.html" class="nav-link">
+                <span class="nav-icon">
+                    <i class="fa-solid fa-circle-question"></i>
+                </span>
+                <span>Quick Quiz</span>
+            </a>
+
+            <a href="revision.html" class="nav-link">
+                <span class="nav-icon">
+                    <i class="fa-solid fa-rotate-right"></i>
+                </span>
+                <span>Smart Revision</span>
+            </a>
+
+            <a href="analytics.html" class="nav-link">
+                <span class="nav-icon">
+                    <i class="fa-solid fa-chart-line"></i>
+                </span>
+                <span>Analytics</span>
+            </a>
+
+            <div class="sidebar-label secondary-label">PREFERENCES</div>
+
+            <a href="settings.html" class="nav-link">
+                <span class="nav-icon">
+                    <i class="fa-solid fa-gear"></i>
+                </span>
+                <span>Settings</span>
+            </a>
+
+        </nav>
+
+        <div class="sidebar-bottom">
+
+            <div class="sidebar-tip">
+                <span class="tip-star">
+                    <i class="fa-solid fa-sparkles"></i>
+                </span>
+                <h3>Learn a little every day.</h3>
+                <p>Small study sessions can make a big difference.</p>
+
+                <a href="study.html">Start studying</a>
+            </div>
+
+            <button type="button" class="logout-button" id="logoutButton">
+                <span class="nav-icon">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                </span>
+                <span>Sign out</span>
+            </button>
+
+        </div>
+
+    </aside>
+
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+
+        <!-- TOP BAR -->
+        <header class="topbar">
+
+            <div class="topbar-left">
+
+                <button
+                    type="button"
+                    class="menu-toggle"
+                    id="menuToggle"
+                    aria-label="Open navigation menu"
+                    aria-expanded="false"
+                >
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+
+                <div class="breadcrumb">
+                    <span>Workspace</span>
+                    <span class="breadcrumb-separator">/</span>
+                    <strong>My Flashcards</strong>
+                </div>
+
+            </div>
+
+            <div class="topbar-right">
+
+                <div class="today-date" id="todayDate"></div>
+
+                <div class="profile-menu">
+                    <button
+                        type="button"
+                        class="profile-button"
+                        id="profileMenuToggle"
+                        aria-label="Open profile menu"
+                        aria-expanded="false"
+                    >
+                        <span class="avatar" id="topAvatar">
+                            <i class="fa-solid fa-user"></i>
+                        </span>
+
+                        <span class="profile-text">
+                            <strong id="topUserName">Student</strong>
+                        </span>
+
+                        <span class="profile-arrow">
+                            <i class="fa-solid fa-chevron-down"></i>
+                        </span>
+                    </button>
+
+                    <div class="profile-dropdown" id="profileDropdown" hidden>
+                        <a href="settings.html" class="dropdown-item">
+                            <i class="fa-solid fa-user"></i>
+                            <span>Profile Settings</span>
+                        </a>
+
+                        <a href="flashcards.html" class="dropdown-item">
+                            <i class="fa-solid fa-cards"></i>
+                            <span>My Flashcards</span>
+                        </a>
+
+                        <a href="study.html" class="dropdown-item">
+                            <i class="fa-solid fa-book"></i>
+                            <span>Study Mode</span>
+                        </a>
+
+                        <div class="dropdown-divider"></div>
+
+                        <button class="dropdown-item logout-dropdown" id="logoutButton">
+                            <i class="fa-solid fa-right-from-bracket"></i>
+                            <span>Sign out</span>
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <!-- PAGE CONTENT -->
+        <div class="page-container">
+
+            <!-- PAGE HEADER -->
+            <section class="page-header">
+
+                <div class="page-heading">
+
+                    <span class="eyebrow">YOUR LEARNING LIBRARY</span>
+
+                    <h1>My Flashcards<span class="heading-dot">.</span></h1>
+
+                    <p>
+                        Your knowledge, organized in one place.
+                        Review, manage, and grow your collection.
+                    </p>
+
+                </div>
+
+                <a href="create-flashcard.html" class="primary-button">
+                    <i class="fa-solid fa-plus"></i>
+                    <span>Create flashcard</span>
+                </a>
+
+            </section>
+
+
+            <!-- STATISTICS -->
+            <section class="collection-stats">
+
+                <article class="mini-stat">
+                    <div class="mini-stat-icon blue-bg">
+                        <i class="fa-solid fa-cards"></i>
+                    </div>
+
+                    <div>
+                        <span>Total flashcards</span>
+                        <strong id="totalCards">0</strong>
+                    </div>
+                </article>
+
+<article class="mini-stat">
+                    <div class="mini-stat-icon purple-bg">
+                        <i class="fa-solid fa-tags"></i>
+                    </div>
+
+                    <div>
+                        <span>Subjects</span>
+                        <strong id="totalSubjects">0</strong>
+                    </div>
+                </article>
+
+                <article class="mini-stat">
+                    <div class="mini-stat-icon orange-bg">
+                        <i class="fa-solid fa-star"></i>
+                    </div>
+
+                    <div>
+                        <span>Favourites</span>
+                        <strong id="totalFavourites">0</strong>
+                    </div>
+                </article>
+
+            </section>
+
+
+            <!-- SEARCH AND FILTERS -->
+            <section class="toolbar">
+
+                <div class="search-box">
+
+                    <span class="search-icon" aria-hidden="true">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </span>
+
+                    <input
+                        type="search"
+                        id="searchInput"
+                        placeholder="Search questions, answers, or subjects..."
+                        aria-label="Search flashcards"
+                    >
+
+                    <button
+                        type="button"
+                        id="clearSearch"
+                        class="clear-search"
+                        aria-label="Clear search"
+                        hidden
+                    >
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+
+                </div>
+
+                <div class="filter-controls">
+
+                    <label class="visually-hidden" for="subjectFilter">
+                        Filter by subject
+                    </label>
+
+                    <select id="subjectFilter">
+                        <option value="all">All subjects</option>
+                    </select>
+
+                    <label class="visually-hidden" for="sortFilter">
+                        Sort flashcards
+                    </label>
+
+                    <select id="sortFilter">
+                        <option value="newest">Newest first</option>
+                        <option value="oldest">Oldest first</option>
+                        <option value="az">Subject A–Z</option>
+                        <option value="favorites">Favourites first</option>
+                    </select>
+
+                </div>
+
+            </section>
+
+
+            <!-- FILTER TABS -->
+            <section class="collection-controls">
+
+                <div class="filter-tabs" role="group" aria-label="Flashcard view">
+
+                    <button
+                        type="button"
+                        class="filter-tab active"
+                        data-view="all"
+                        aria-pressed="true"
+                    >
+                        All cards
+                        <span class="tab-count" id="allCount">0</span>
+                    </button>
+
+                    <button
+                        type="button"
+                        class="filter-tab"
+                        data-view="favorites"
+                        aria-pressed="false"
+                    >
+                        <i class="fa-solid fa-star"></i>
+                        Favourites
+                        <span class="tab-count" id="favoritesCount">0</span>
+                    </button>
+
+                </div>
+
+                <div class="results-label" id="resultsLabel">
+                    Showing 0 flashcards
+                </div>
+
+            </section>
+
+
+            <!-- FLASHCARD COLLECTION -->
+            <section
+                class="flashcard-grid"
+                id="flashcardGrid"
+                aria-label="Your flashcard collection"
+                aria-live="polite"
+            >
+                <!-- Cards are rendered by flashcards.js. -->
+            </section>
+
+
+            <!-- EMPTY STATE -->
+            <section class="empty-state" id="emptyState" hidden>
+
+                <div class="empty-illustration">
+                    <span class="empty-card empty-card-back"></span>
+                    <span class="empty-card empty-card-front">?</span>
+                </div>
+
+                <h2 id="emptyTitle">Your learning library starts here.</h2>
+
+                <p id="emptyDescription">
+                    Create your first flashcard to start building your knowledge.
+                </p>
+
+                <a href="create-flashcard.html" class="primary-button">
+                    <i class="fa-solid fa-plus"></i>
+                    <span>Create your first flashcard</span>
+                </a>
+
+            </section>
+
+
+            <!-- FOOTER -->
+            <footer class="page-footer">
+
+                <p>
+                    © <span id="footerYear"></span> Flashcard Coach.
+                    Learn smarter, every day.
+                </p>
+
+                <span>Every card is a step forward. ✦</span>
+
+            </footer>
+
+        </div>
+
+    </main>
+
+</div>
+
+
+<!-- ADD / EDIT FLASHCARD MODAL -->
+<div
+    class="modal-backdrop"
+    id="cardModal"
+    role="presentation"
+    hidden
+>
+    <section
+        class="modal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="modalTitle"
+    >
+
+        <div class="modal-header">
+
+            <div>
+                <span class="eyebrow">YOUR LEARNING LIBRARY</span>
+                <h2 id="modalTitle">Create a flashcard</h2>
+                <p>Write a question and its answer.</p>
+            </div>
+
+            <button
+                type="button"
+                class="modal-close"
+                id="closeModal"
+                aria-label="Close dialog"
+            >
+                ×
+            </button>
+
+        </div>
+
+        <form id="flashcardForm">
+
+            <input type="hidden" id="editingCardId">
+
+            <div class="form-group">
+                <label for="cardSubject">Subject</label>
+
+                <input
+                    type="text"
+                    id="cardSubject"
+                    list="subjectSuggestions"
+                    placeholder="e.g. Computer Studies"
+                    maxlength="60"
+                    required
+                >
+
+                <datalist id="subjectSuggestions">
+                    <option value="Computer Studies">
+                    <option value="Mathematics">
+                    <option value="English">
+                    <option value="Science">
+                    <option value="ICT">
+                </datalist>
+            </div>
+
+            <div class="form-group">
+                <label for="cardQuestion">Question or term</label>
+
+                <textarea
+                    id="cardQuestion"
+                    rows="3"
+                    maxlength="1000"
+                    placeholder="Enter the question or term..."
+                    required
+                ></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="cardAnswer">Answer or definition</label>
+
+                <textarea
+                    id="cardAnswer"
+                    rows="4"
+                    maxlength="3000"
+                    placeholder="Enter the answer or explanation..."
+                    required
+                ></textarea>
+            </div>
+
+            <label class="favorite-checkbox">
+                <input type="checkbox" id="cardFavorite">
+                <span>★</span>
+                Add to favourites
+            </label>
+
+            <p class="form-error" id="formError" role="alert" hidden></p>
+
+            <div class="modal-actions">
+
+                <button
+                    type="button"
+                    class="secondary-button"
+                    id="cancelModal"
+                >
+                    Cancel
+                </button>
+
+                <button type="submit" class="primary-button">
+                    <span id="saveButtonIcon">＋</span>
+                    <span id="saveButtonText">Save flashcard</span>
+                </button>
+
+            </div>
+
+        </form>
+
+    </section>
+</div>
+
+
+<!-- FLASHCARD PREVIEW MODAL -->
+<div
+    class="modal-backdrop"
+    id="previewModal"
+    role="presentation"
+    hidden
+>
+    <section
+        class="preview-modal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="previewTitle"
+    >
+
+        <div class="preview-header">
+
+            <span class="eyebrow">FLASHCARD PREVIEW</span>
+
+            <button
+                type="button"
+                class="modal-close"
+                id="closePreview"
+                aria-label="Close preview"
+            >
+                ×
+            </button>
+
+        </div>
+
+        <div class="preview-subject" id="previewSubject">
+            General
+        </div>
+
+        <button
+            type="button"
+            class="preview-card"
+            id="previewCard"
+            aria-label="Reveal flashcard answer"
+            aria-pressed="false"
+        >
+            <span class="preview-card-label" id="previewLabel">
+                QUESTION
+            </span>
+
+            <span class="preview-card-text" id="previewText">
+                Your question will appear here.
+            </span>
+
+            <span class="preview-card-hint" id="previewHint">
+                Click to reveal the answer
+            </span>
+        </button>
+
+        <div class="preview-footer">
+
+            <span id="previewPosition"></span>
+
+            <button
+                type="button"
+                class="secondary-button"
+                id="previewEdit"
+            >
+                Edit card
+            </button>
+
+        </div>
+
+    </section>
+</div>
+
+
+<!-- TOAST NOTIFICATIONS -->
+<div
+    class="toast"
+    id="toast"
+    role="status"
+    aria-live="polite"
+></div>
+
+</body>
+</html>

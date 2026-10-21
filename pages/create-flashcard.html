@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Create Flashcard | Flashcard Coach</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+          rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <link rel="stylesheet" href="../css/create-flashcard.css">
+</head>
+
+<body>
+
+<div class="app-layout">
+
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+
+        <a href="../index.html" class="brand">
+            <img
+                src="../images/logo.png"
+                alt="Flashcard Coach logo"
+                class="brand-logo"
+            >
+
+            <span class="brand-name">
+                Flash<span>card</span>
+            </span>
+        </a>
+
+        <div class="sidebar-label">WORKSPACE</div>
+
+        <nav class="sidebar-nav">
+
+<a href="dashboard.html" class="nav-link">
+                <span class="nav-icon">
+                    <i class="fa-solid fa-gauge-high"></i>
+                </span>
+                <span>Dashboard</span>
+            </a>
+
+            <a href="flashcards.html" class="nav-link">
+                <span class="nav-icon">
+                    <i class="fa-solid fa-cards"></i>
+                </span>
+                <span>My Flashcards</span>
+            </a>
+
+            <a href="create-flashcard.html" class="nav-link active">
+                <span class="nav-icon">
+                    <i class="fa-solid fa-plus"></i>
+                </span>
+                <span>Create Flashcard</span>
+            </a>
+
+            <a href="study.html" class="nav-link">
+                <span class="nav-icon">
+                    <i class="fa-solid fa-book"></i>
+                </span>
+                <span>Study Mode</span>
+            </a>
+
+            <a href="subjects.html" class="nav-link">
+                <span class="nav-icon">
+                    <i class="fa-solid fa-tags"></i>
+                </span>
+                <span>Subjects</span>
+            </a>
+
+            <a href="progress.html" class="nav-link">
+                <span class="nav-icon">
+                    <i class="fa-solid fa-chart-line"></i>
+                </span>
+                <span>My Progress</span>
+            </a>
+
+        </nav>
+
+        <div class="sidebar-bottom">
+            <div class="upgrade-card">
+                <div class="upgrade-icon">
+                    <i class="fa-solid fa-rocket"></i>
+                </div>
+                <h3>Keep learning!</h3>
+                <p>Create flashcards to remember important concepts.</p>
+                <a href="flashcards.html">View my cards</a>
+            </div>
+
+            <button class="logout-button" id="logoutButton">
+                <span class="nav-icon">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                </span>
+                <span>Sign out</span>
+            </button>
+        </div>
+
+    </aside>
+
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <!-- Main content -->
+    <main class="main-content">
+
+        <!-- Topbar -->
+        <header class="topbar">
+
+<button class="menu-toggle" id="menuToggle" aria-label="Open menu">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+
+            <div class="breadcrumb">
+                <span>Workspace</span>
+                <span class="breadcrumb-divider">/</span>
+                <strong>Create Flashcard</strong>
+            </div>
+<div class="topbar-right">
+
+                <button class="help-button" id="helpButton" title="Help">
+                    <i class="fa-solid fa-circle-question"></i>
+                </button>
+
+                <div class="profile-menu">
+                    <button
+                        type="button"
+                        class="profile-button"
+                        id="profileMenuToggle"
+                        aria-label="Open profile menu"
+                        aria-expanded="false"
+                    >
+                        <span class="avatar" id="topAvatar">
+                            <i class="fa-solid fa-user"></i>
+                        </span>
+
+                        <span class="profile-text">
+                            <strong id="topUserName">Student</strong>
+                        </span>
+
+                        <span class="profile-arrow">
+                            <i class="fa-solid fa-chevron-down"></i>
+                        </span>
+                    </button>
+
+                    <div class="profile-dropdown" id="profileDropdown" hidden>
+                        <a href="settings.html" class="dropdown-item">
+                            <i class="fa-solid fa-user"></i>
+                            <span>Profile Settings</span>
+                        </a>
+
+                        <a href="flashcards.html" class="dropdown-item">
+                            <i class="fa-solid fa-cards"></i>
+                            <span>My Flashcards</span>
+                        </a>
+
+                        <a href="study.html" class="dropdown-item">
+                            <i class="fa-solid fa-book"></i>
+                            <span>Study Mode</span>
+                        </a>
+
+                        <div class="dropdown-divider"></div>
+
+                        <button class="dropdown-item logout-dropdown" id="logoutButton">
+                            <i class="fa-solid fa-right-from-bracket"></i>
+                            <span>Sign out</span>
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+
+        </header>
+
+        <!-- Page -->
+        <section class="page-container">
+
+            <div class="page-heading">
+                <div>
+                    <div class="eyebrow">BUILD YOUR KNOWLEDGE</div>
+
+                    <h1>Create a <span>Flashcard</span></h1>
+
+                    <p>
+                        Turn important concepts into simple cards that make revision easier.
+                    </p>
+                </div>
+
+                <a href="flashcards.html" class="back-button">
+                    <i class="fa-solid fa-arrow-left"></i>
+                    My Flashcards
+                </a>
+            </div>
+
+            <!-- Progress steps -->
+            <div class="steps-card">
+
+                <div class="step active">
+                    <div class="step-number">1</div>
+
+                    <div>
+                        <strong>Card details</strong>
+                        <small>Write your question and answer</small>
+                    </div>
+                </div>
+
+                <div class="step-line"></div>
+
+                <div class="step">
+                    <div class="step-number">2</div>
+
+                    <div>
+                        <strong>Preview</strong>
+                        <small>Check your flashcard</small>
+                    </div>
+                </div>
+
+                <div class="step-line"></div>
+
+                <div class="step">
+                    <div class="step-number">3</div>
+
+                    <div>
+                        <strong>Save</strong>
+                        <small>Add it to your collection</small>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="content-grid">
+
+                <!-- Form -->
+                <section class="form-card">
+
+                    <div class="section-heading">
+                        <div>
+                            <h2>Flashcard details</h2>
+                            <p>Fill in the information below.</p>
+                        </div>
+
+                        <div class="required-label">
+                            * Required
+                        </div>
+                    </div>
+
+                    <form id="flashcardForm">
+
+                        <section class="document-import" aria-labelledby="documentImportTitle">
+                            <div class="document-import-heading">
+                                <span class="document-import-icon" aria-hidden="true">
+                                    <i class="fa-solid fa-file-arrow-up"></i>
+                                </span>
+                                <div>
+                                    <h3 id="documentImportTitle">
+                                        Import study material
+                                        <span class="import-optional-label">Optional</span>
+                                    </h3>
+                                    <p>Skip this section to enter your question and answer yourself. Or extract text from a PDF, Word document, or image. Image OCR supports English.</p>
+                                </div>
+                            </div>
+
+                            <label class="file-drop-zone" id="fileDropZone" for="sourceFile">
+                                <input
+                                    type="file"
+                                    id="sourceFile"
+                                    accept=".pdf,.docx,.png,.jpg,.jpeg,.webp,.bmp,.tif,.tiff,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document,image/*"
+                                >
+                                <span class="upload-icon" aria-hidden="true">
+                                    <i class="fa-solid fa-cloud-arrow-up"></i>
+                                </span>
+                                <span class="upload-prompt"><strong>Choose a file</strong> or drag it here</span>
+                                <span class="upload-formats">PDF, Word (.docx), PNG, JPG, WEBP, BMP, or TIFF · up to 20 MB</span>
+                            </label>
+
+                            <p class="import-status" id="importStatus" role="status" aria-live="polite">
+                                Your file is read in this browser and is not uploaded or saved.
+                            </p>
+
+                            <div class="extracted-content" id="extractedContent" hidden>
+                                <label for="extractedText">Extracted text</label>
+                                <textarea id="extractedText" rows="6" readonly></textarea>
+                                <div class="extracted-actions">
+                                    <button type="button" class="import-use-button" data-import-target="cardQuestion">
+                                        Use as question
+                                    </button>
+                                    <button type="button" class="import-use-button" data-import-target="cardAnswer">
+                                        Use as answer
+                                    </button>
+                                    <button type="button" class="import-use-button" data-import-target="cardNotes">
+                                        Add to notes
+                                    </button>
+                                </div>
+                            </div>
+                        </section>
+
+                        <div class="form-group">
+                            <label for="cardTitle">
+                                Flashcard title
+                                <span>*</span>
+                            </label>
+
+                            <input
+                                type="text"
+                                id="cardTitle"
+                                name="title"
+                                placeholder="e.g. Introduction to networking"
+                                maxlength="100"
+                                required
+                            >
+
+                            <small>A short title to help you identify this card.</small>
+                        </div>
+
+                        <div class="form-row">
+
+                            <div class="form-group">
+                                <label for="cardSubject">
+                                    Subject
+                                    <span>*</span>
+                                </label>
+
+                                <select id="cardSubject" name="subject" required>
+                                    <option value="">Choose a subject</option>
+                                    <option value="Computer Studies">Computer Studies</option>
+                                    <option value="Mathematics">Mathematics</option>
+                                    <option value="English">English</option>
+                                    <option value="Science">Science</option>
+                                    <option value="Business Studies">Business Studies</option>
+                                    <option value="ICT">ICT</option>
+                                    <option value="Networking">Networking</option>
+                                    <option value="Programming">Programming</option>
+                                    <option value="Database Systems">Database Systems</option>
+                                    <option value="Web Design">Web Design</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="cardDifficulty">
+                                    Difficulty
+                                </label>
+
+                                <select id="cardDifficulty" name="difficulty">
+                                    <option value="Easy">Easy</option>
+                                    <option value="Medium" selected>Medium</option>
+                                    <option value="Hard">Hard</option>
+                                </select>
+                            </div>
+
+                        </div>
+
+                        <div class="form-group">
+                            <label for="cardQuestion">
+                                Question / Front side
+                                <span>*</span>
+                            </label>
+
+                            <textarea
+                                id="cardQuestion"
+                                name="question"
+                                rows="5"
+                                placeholder="Enter the question the student should answer..."
+                                maxlength="1000"
+                                required
+                            ></textarea>
+
+                            <div class="field-footer">
+                                <small>This appears first when studying.</small>
+                                <span id="questionCount">0 / 1000</span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="cardAnswer">
+                                Answer / Back side
+                                <span>*</span>
+                            </label>
+
+                            <textarea
+                                id="cardAnswer"
+                                name="answer"
+                                rows="5"
+                                placeholder="Write a clear and accurate answer..."
+                                maxlength="2000"
+                                required
+                            ></textarea>
+
+                            <div class="field-footer">
+                                <small>Keep your answer clear and easy to remember.</small>
+                                <span id="answerCount">0 / 2000</span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="cardNotes">
+                                Extra notes
+                                <span class="optional-label">Optional</span>
+                            </label>
+
+                            <textarea
+                                id="cardNotes"
+                                name="notes"
+                                rows="3"
+                                maxlength="1000"
+                                placeholder="Add examples, reminders or revision tips..."
+                            ></textarea>
+                        </div>
+
+                        <label class="favorite-option">
+                            <input type="checkbox" id="cardFavorite">
+
+                            <span class="custom-checkbox"></span>
+
+                            <span class="favorite-text">
+                                <strong>Mark as favourite</strong>
+                                <small>Find this card easily when revising.</small>
+                            </span>
+
+                            <span class="favorite-star">☆</span>
+                        </label>
+
+                        <div class="form-error" id="formError" role="alert"></div>
+
+                        <div class="form-actions">
+                            <button type="button" class="button button-light" id="clearButton">
+                                Clear form
+                            </button>
+
+                            <div class="action-right">
+                                <button type="button" class="button button-outline" id="previewButton">
+                                    Preview
+                                </button>
+
+                                <button type="submit" class="button button-primary" id="saveButton">
+                                    <span>＋</span>
+                                    Save Flashcard
+                                </button>
+                            </div>
+                        </div>
+
+                    </form>
+
+                </section>
+
+                <!-- Preview panel -->
+                <aside class="preview-column">
+
+                    <div class="preview-heading">
+                        <div>
+                            <h2>Live preview</h2>
+                            <p>See how your card will look.</p>
+                        </div>
+
+                        <span class="live-badge">
+                            <span></span>
+                            LIVE
+                        </span>
+                    </div>
+
+                    <div class="flashcard-preview" id="flashcardPreview">
+
+                        <div class="preview-top">
+                            <span class="preview-logo">F</span>
+                            <span class="preview-card-label">FLASHCARD</span>
+                            <span class="preview-star" id="previewStar">☆</span>
+                        </div>
+
+                        <div class="preview-subject" id="previewSubject">
+                            SELECT A SUBJECT
+                        </div>
+
+                        <div class="preview-content">
+
+                            <div class="preview-type" id="previewType">
+                                QUESTION
+                            </div>
+
+                            <h3 id="previewQuestion">
+                                Your question will appear here.
+                            </h3>
+
+                            <p id="previewAnswer">
+                                Your answer will appear here when you turn the card over.
+                            </p>
+
+                        </div>
+
+                        <button type="button" class="flip-button" id="flipButton">
+                            ↻ Flip card
+                        </button>
+
+                        <div class="preview-footer">
+                            <span>FLASHCARD COACH</span>
+                            <span id="previewDifficulty">MEDIUM</span>
+                        </div>
+
+                    </div>
+
+                    <div class="preview-tip">
+                        <div class="tip-icon">✦</div>
+
+                        <div>
+                            <h3>Study tip</h3>
+                            <p>
+                                Write one clear question per card. Try answering from memory
+                                before revealing the answer.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="quick-stats">
+
+                        <div class="quick-stat">
+                            <span class="stat-icon">▤</span>
+                            <div>
+                                <strong id="sessionCardCount">0</strong>
+                                <small>Cards created this session</small>
+                            </div>
+                        </div>
+
+                        <div class="quick-stat">
+                            <span class="stat-icon">✓</span>
+                            <div>
+                                <strong>Active</strong>
+                                <small>Your cards are saved locally</small>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </aside>
+
+            </div>
+
+            <footer class="page-footer">
+                <p>© <span id="footerYear"></span> Flashcard Coach. Learn smarter, every day.</p>
+                <span>Made for curious minds ✦</span>
+            </footer>
+
+        </section>
+
+    </main>
+
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script type="module" src="../js/firebase-storage-bootstrap.js"></script>
+<script src="../js/create-flashcard.js"></script>
+
+</body>
+</html>

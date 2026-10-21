@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Revision | Flashcard Coach</title>
+    <meta name="description" content="Review due and difficult flashcards with a focused revision queue.">
+    <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../css/revision.css"><script type="module" src="../js/firebase-storage-bootstrap.js"></script><script src="../js/revision.js" defer></script>
+</head>
+<body>
+<div class="app-layout">
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+    <aside class="sidebar" id="sidebar">
+        <a href="dashboard.html" class="brand"><img src="../images/logo.png" alt="" class="brand-logo"><span class="brand-name">Flash<span>card</span></span></a>
+        <div class="sidebar-label">WORKSPACE</div>
+        <nav class="sidebar-nav" aria-label="Main navigation">
+            <a href="dashboard.html" class="nav-link"><i class="fa-solid fa-gauge-high"></i><span>Dashboard</span></a>
+            <a href="flashcards.html" class="nav-link"><i class="fa-solid fa-layer-group"></i><span>My Flashcards</span></a>
+            <a href="create-flashcard.html" class="nav-link"><i class="fa-solid fa-plus"></i><span>Create Flashcards</span></a>
+            <a href="study.html" class="nav-link"><i class="fa-solid fa-book"></i><span>Study Mode</span></a>
+            <a href="revision.html" class="nav-link active" aria-current="page"><i class="fa-solid fa-rotate-right"></i><span>Smart Revision</span></a>
+            <div class="sidebar-label secondary-label">PREFERENCES</div>
+            <a href="settings.html" class="nav-link"><i class="fa-solid fa-gear"></i><span>Settings</span></a>
+        </nav>
+        <div class="sidebar-bottom"><div class="sidebar-tip"><i class="fa-solid fa-lightbulb"></i><h3>Small steps stick.</h3><p>Revisit challenging cards regularly to strengthen recall.</p><a href="study.html">Open study mode</a></div><button class="logout-button" id="logoutButton" type="button"><i class="fa-solid fa-right-from-bracket"></i><span>Sign out</span></button></div>
+    </aside>
+    <main class="main-content">
+        <header class="topbar"><div class="topbar-left"><button type="button" class="menu-toggle" id="menuToggle" aria-label="Open navigation menu" aria-expanded="false"><i class="fa-solid fa-bars"></i></button><div class="breadcrumb"><span>Workspace</span><span>/</span><strong>Smart Revision</strong></div></div><div class="topbar-right"><span id="todayDate"></span><div class="profile-chip"><span class="avatar" id="topAvatar">S</span><strong id="topUserName">Student</strong></div></div></header>
+        <div class="page-container">
+            <section class="page-heading"><span class="eyebrow">SPACED PRACTICE</span><h1>Smart Revision<span>.</span></h1><p>Your revision queue puts challenging and due cards first.</p></section>
+            <section class="overview" aria-label="Revision queue summary"><div class="overview-icon"><i class="fa-solid fa-bullseye"></i></div><div class="overview-copy"><strong id="queueCount">0 cards ready</strong><span id="queueDescription">Your queue is based on your study history.</span></div><div class="overview-stat"><strong id="dueCount">0</strong><span>due now</span></div><div class="overview-stat"><strong id="weakCount">0</strong><span>needs practice</span></div></section>
+            <section class="revision-panel" id="revisionPanel" hidden>
+                <div class="session-meta"><span class="queue-label"><i class="fa-solid fa-rotate-right"></i> REVISION QUEUE</span><span class="position" id="position">Card 1 of 1</span></div>
+                <div class="progress-track"><span id="progressBar"></span></div>
+                <button class="flashcard" id="flashcard" type="button" aria-pressed="false" aria-label="Reveal answer">
+                    <span class="card-top"><span id="subjectPill">General</span><span id="difficultyPill">MEDIUM</span></span>
+                    <span class="card-content"><span class="card-kicker" id="cardKicker">QUESTION</span><strong id="cardTitle"></strong><span id="cardText"></span></span>
+                    <span class="flip-hint" id="flipHint"><i class="fa-solid fa-arrow-rotate-right"></i> Select card to reveal answer</span>
+                </button>
+                <p class="review-prompt" id="reviewPrompt">Try to recall the answer before revealing it.</p>
+                <div class="review-actions" id="reviewActions" hidden><button class="rate-button learning" type="button" data-rating="learning"><i class="fa-solid fa-rotate-right"></i><span>Need practice</span></button><button class="rate-button known" type="button" data-rating="known"><i class="fa-solid fa-check"></i><span>Got it</span></button></div>
+                <p class="feedback" id="feedback" role="status" aria-live="polite"></p>
+            </section>
+            <section class="empty-state" id="emptyState" hidden><span class="empty-icon"><i class="fa-solid fa-circle-check"></i></span><h2 id="emptyTitle">All caught up!</h2><p id="emptyDescription">You have no cards due for revision right now. Keep adding cards and studying regularly.</p><div><a class="primary-button" href="study.html"><i class="fa-solid fa-book"></i> Study all cards</a><a class="secondary-button" href="flashcards.html">Browse flashcards</a></div></section>
+            <aside class="method-note"><i class="fa-regular fa-clock"></i><p><strong>How the queue works</strong><br>Cards you marked for practice appear first. Other cards become due again after a short interval that grows as you answer them correctly.</p></aside>
+        </div>
+    </main>
+</div>
+</body>
+</html>

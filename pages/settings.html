@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings | Flashcard Coach</title>
+    <meta name="description" content="Manage your Flashcard Coach profile and study preferences.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../css/settings.css">
+    <script type="module" src="../js/firebase-storage-bootstrap.js"></script>
+    <script src="../js/settings.js" defer></script>
+</head>
+<body>
+<div class="app-layout">
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+    <aside class="sidebar" id="sidebar">
+        <a href="dashboard.html" class="brand"><img src="../images/logo.png" alt="" class="brand-logo"><span class="brand-name">Flash<span>card</span></span></a>
+        <div class="sidebar-label">WORKSPACE</div>
+        <nav class="sidebar-nav" aria-label="Main navigation">
+            <a href="dashboard.html" class="nav-link"><span class="nav-icon"><i class="fa-solid fa-gauge-high"></i></span><span>Dashboard</span></a>
+            <a href="flashcards.html" class="nav-link"><span class="nav-icon"><i class="fa-solid fa-layer-group"></i></span><span>My Flashcards</span></a>
+            <a href="create-flashcard.html" class="nav-link"><span class="nav-icon"><i class="fa-solid fa-plus"></i></span><span>Create Flashcards</span></a>
+            <a href="study.html" class="nav-link"><span class="nav-icon"><i class="fa-solid fa-book"></i></span><span>Study Mode</span></a>
+            <div class="sidebar-label secondary-label">PREFERENCES</div>
+            <a href="settings.html" class="nav-link active" aria-current="page"><span class="nav-icon"><i class="fa-solid fa-gear"></i></span><span>Settings</span></a>
+        </nav>
+        <div class="sidebar-bottom"><div class="sidebar-tip"><span class="tip-star"><i class="fa-solid fa-sparkles"></i></span><h3>Make it yours.</h3><p>Set a daily target and build a study routine that works for you.</p><a href="study.html">Start studying</a></div><button type="button" class="logout-button" id="logoutButton"><i class="fa-solid fa-right-from-bracket"></i><span>Sign out</span></button></div>
+    </aside>
+    <main class="main-content">
+        <header class="topbar">
+            <div class="topbar-left"><button class="menu-toggle" type="button" id="menuToggle" aria-label="Open navigation menu" aria-expanded="false"><i class="fa-solid fa-bars"></i></button><div class="breadcrumb"><span>Workspace</span><span class="breadcrumb-separator">/</span><strong>Settings</strong></div></div>
+            <div class="topbar-right"><div class="today-date" id="todayDate"></div><div class="profile-chip"><span class="avatar" id="topAvatar">S</span><strong id="topUserName">Student</strong></div></div>
+        </header>
+        <div class="page-container">
+            <section class="page-header"><div><span class="eyebrow">YOUR ACCOUNT</span><h1>Settings<span class="heading-dot">.</span></h1><p>Manage your profile and tailor your study experience.</p></div></section>
+            <div class="settings-grid">
+                <form id="profileForm" class="settings-card">
+                    <div class="card-heading"><span class="section-icon"><i class="fa-regular fa-user"></i></span><div><h2>Profile</h2><p>Keep your account details up to date.</p></div></div>
+                    <label for="displayName">Display name</label><input id="displayName" name="name" type="text" maxlength="60" autocomplete="name" required>
+                    <label for="emailAddress">Email address</label><input id="emailAddress" name="email" type="email" autocomplete="email" required>
+                    <div class="form-actions"><span class="form-note" id="profileMessage" role="status" aria-live="polite"></span><button class="primary-button" type="submit"><i class="fa-solid fa-check"></i> Save profile</button></div>
+                </form>
+                <form id="preferencesForm" class="settings-card">
+                    <div class="card-heading"><span class="section-icon violet"><i class="fa-solid fa-book-open"></i></span><div><h2>Study preferences</h2><p>Choose a daily goal and your default card order.</p></div></div>
+                    <label for="dailyGoal">Daily card goal</label><div class="input-suffix"><input id="dailyGoal" name="dailyGoal" type="number" min="1" max="500" required><span>cards per day</span></div>
+                    <label for="cardOrder">Study card order</label><select id="cardOrder" name="cardOrder"><option value="sequential">In order</option><option value="shuffle">Shuffled</option></select>
+                    <div class="form-actions"><span class="form-note" id="preferencesMessage" role="status" aria-live="polite"></span><button class="primary-button" type="submit"><i class="fa-solid fa-check"></i> Save preferences</button></div>
+                </form>
+                <section class="settings-card notification-card">
+                    <div class="card-heading"><span class="section-icon amber"><i class="fa-regular fa-bell"></i></span><div><h2>Study reminders</h2><p>Turn on a gentle reminder to keep your streak going.</p></div></div>
+                    <label class="toggle-row" for="reminders"><span><strong>Daily reminder</strong><small>Show a reminder when you open the app.</small></span><input id="reminders" type="checkbox" role="switch"><span class="toggle-track" aria-hidden="true"></span></label>
+                    <p class="reminder-note" id="reminderMessage" role="status" aria-live="polite"></p>
+                </section>
+                <section class="settings-card account-card"><div class="card-heading"><span class="section-icon green"><i class="fa-solid fa-shield-halved"></i></span><div><h2>Account</h2><p>Your learning data is stored in this browser.</p></div></div><a class="text-link" href="dashboard.html">Back to dashboard <i class="fa-solid fa-arrow-right"></i></a></section>
+            </div>
+        </div>
+    </main>
+</div>
+</body>
+</html>
